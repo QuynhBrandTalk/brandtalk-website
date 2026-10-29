@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ContactFormData } from '@/lib/types'
 import { containerVariants, itemVariants } from '@/lib/animations'
 
 // Validation schema

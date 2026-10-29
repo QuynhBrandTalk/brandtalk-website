@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Fraunces:opsz@9..144;wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root styles */
+:root {
+  scroll-behavior: smooth;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #f8f6f3;
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  @apply text-display-lg;
+}
+
+h2 {
+  @apply text-display-md;
+}
+
+h3 {
+  @apply text-heading-lg;
+}
+
+/* Links */
+a {
+  @apply transition-colors duration-150;
+}
+
+a:not(.button) {
+  @apply relative text-navy-900 hover:text-gold-600;
+}
+
+/* Underline animation for links */
+a:not(.button)::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-full h-0.5 bg-gold-600 scale-x-0 origin-left transition-transform duration-150;
+}
+
+a:not(.button):hover::after {
+  @apply scale-x-100;
+}
+
+/* Buttons */
+.button {
+  @apply inline-flex items-center justify-center px-6 py-3 font-semibold transition-all duration-200 rounded-lg;
+}
+
+.button-primary {
+  @apply button bg-navy-900 text-white hover:bg-navy-800;
+}
+
+.button-secondary {
+  @apply button border-2 border-navy-900 text-navy-900 hover:bg-navy-50;
+}
+
+.button-gold {
+  @apply button bg-gold-600 text-navy-900 hover:bg-gold-700;
+}
+
+.button-ghost {
+  @apply button text-navy-900 hover:bg-navy-50;
+}
+
+/* Form elements */
+input,
+textarea,
+select {
+  @apply bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0;
+}
+
+input::placeholder,
+textarea::placeholder {
+  @apply text-gray-400;
+}
+
+input:focus,
+textarea:focus {
+  @apply bg-gray-50;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f6f3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4896e;
+  border-radius: 6px;
+  border: 3px solid #f8f6f3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a961;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: #d4896e #f8f6f3;
+  scrollbar-width: thin;
+}
+
+/* Selection color */
+::selection {
+  background-color: #c9a961;
+  color: #1a1a1a;
+}
+
+::-moz-selection {
+  background-color: #c9a961;
+  color: #1a1a1a;
+}
+
+/* Utility classes */
+.container-custom {
+  @apply max-w-7xl mx-auto px-4 md:px-8 lg:px-12;
+}
+
+.grid-cols-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.bg-gradient-navy {
+  background: linear-gradient(135deg, #1a1a1a 0%, #3a426e 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #c9a961 0%, #d4896e 100%);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive typography adjustments */
+@media (max-width: 768px) {
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}

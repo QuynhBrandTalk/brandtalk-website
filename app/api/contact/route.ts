@@ -15,11 +15,21 @@ import { NextRequest, NextResponse } from 'next/server'
  * 4. npm install resend
  */
 
-// Uncomment when Resend is installed and API key is set
 import { Resend } from 'resend'
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 const RECIPIENT_EMAIL = 'quynhphan.mar@gmail.com'
+
+// Resend only accepts a custom domain once it is verified. Until brandtalk.asia
+// is verified, the shared sandbox sender is used.
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
+
+// Created only when a key is present, so a missing key never breaks the build
+// or crashes the route at import time.
+function getResend(): Resend | null {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return null
+  return new Resend(key)
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,31 +57,47 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     })
 
-    // Send confirmation email to submitter
-    if (process.env.RESEND_API_KEY) {
+    const resend = getResend()
+
+    if (resend) {
+      // The notification to BrandTalk matters most, so it is sent first and
+      // independently of the submitter's confirmation.
       try {
-        // Uncomment when ready to use Resend
         await resend.emails.send({
-          from: 'noreply@brandtalk.asia',
+          from: FROM_EMAIL,
+          to: RECIPIENT_EMAIL,
+          replyTo: email,
+          subject: `New inquiry: ${fullName} (${company})`,
+          html: generateInquiryEmail(
+            fullName,
+            email,
+            company,
+            industry,
+            serviceInterest,
+            message,
+            body.scheduleCall
+          ),
+        })
+      } catch (notifyError) {
+        console.error('Inquiry notification failed:', notifyError)
+      }
+
+      // Until brandtalk.asia is verified in Resend, this confirmation may be
+      // rejected for recipients other than the account owner. A failure here
+      // must not affect the submitter's response.
+      try {
+        await resend.emails.send({
+          from: FROM_EMAIL,
           to: email,
           subject: 'Thank you for contacting BrandTalk',
           html: generateConfirmationEmail(fullName, message),
         })
-
-        // Send notification to BrandTalk team
-        await resend.emails.send({
-          from: 'noreply@brandtalk.asia',
-          to: RECIPIENT_EMAIL,
-          subject: `New inquiry: ${fullName} (${company})`,
-          html: generateInquiryEmail(fullName, email, company, industry, serviceInterest, message, body.scheduleCall),
-        })
-      } catch (emailError) {
-        console.error('Email sending error:', emailError)
-        // Don't fail the request if email fails, but log it
+      } catch (confirmError) {
+        console.error('Confirmation email failed:', confirmError)
       }
     } else {
       console.warn(
-        'RESEND_API_KEY not set. Emails not being sent. Add to .env.local to enable.'
+        'RESEND_API_KEY not set. Submission logged but no email sent.'
       )
     }
 

@@ -1,34 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
- * Contact form API endpoint - Configured with Resend
+ * Contact form API endpoint.
  *
- * Email Configuration:
- * - Recipient: quynhphan.mar@gmail.com
- * - Service: Resend (https://resend.com)
- * - Setup: Add RESEND_API_KEY to .env.local
+ * Delivery goes to quynhphan.mar@gmail.com through Resend, called over its
+ * REST API with fetch rather than the SDK: no extra dependency to install and
+ * no SDK version whose types could break the production build.
  *
- * To get your API key:
- * 1. Go to https://resend.com
- * 2. Create account and get API key
- * 3. Add to .env.local: RESEND_API_KEY=your_key_here
- * 4. npm install resend
+ * Required environment variable: RESEND_API_KEY
+ * Optional: RESEND_FROM_EMAIL (once brandtalk.asia is verified in Resend)
  */
-
-import { Resend } from 'resend'
 
 const RECIPIENT_EMAIL = 'quynhphan.mar@gmail.com'
 
 // Resend only accepts a custom domain once it is verified. Until brandtalk.asia
-// is verified, the shared sandbox sender is used.
+// is verified, its shared sandbox sender is used.
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
 
-// Created only when a key is present, so a missing key never breaks the build
-// or crashes the route at import time.
-function getResend(): Resend | null {
+async function sendEmail(to: string, subject: string, html: string) {
   const key = process.env.RESEND_API_KEY
-  if (!key) return null
-  return new Resend(key)
+  if (!key) throw new Error('RESEND_API_KEY is not set')
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ from: FROM_EMAIL, to, subject, html }),
+  })
+
+  if (!response.ok) {
+    const detail = await response.text()
+    throw new Error(`Resend responded ${response.status}: ${detail}`)
+  }
+
+  return response.json()
 }
 
 export async function POST(request: NextRequest) {
@@ -57,18 +64,14 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     })
 
-    const resend = getResend()
-
-    if (resend) {
+    if (process.env.RESEND_API_KEY) {
       // The notification to BrandTalk matters most, so it is sent first and
       // independently of the submitter's confirmation.
       try {
-        await resend.emails.send({
-          from: FROM_EMAIL,
-          to: RECIPIENT_EMAIL,
-          replyTo: email,
-          subject: `New inquiry: ${fullName} (${company})`,
-          html: generateInquiryEmail(
+        await sendEmail(
+          RECIPIENT_EMAIL,
+          `New inquiry: ${fullName} (${company})`,
+          generateInquiryEmail(
             fullName,
             email,
             company,
@@ -76,8 +79,8 @@ export async function POST(request: NextRequest) {
             serviceInterest,
             message,
             body.scheduleCall
-          ),
-        })
+          )
+        )
       } catch (notifyError) {
         console.error('Inquiry notification failed:', notifyError)
       }
@@ -86,19 +89,16 @@ export async function POST(request: NextRequest) {
       // rejected for recipients other than the account owner. A failure here
       // must not affect the submitter's response.
       try {
-        await resend.emails.send({
-          from: FROM_EMAIL,
-          to: email,
-          subject: 'Thank you for contacting BrandTalk',
-          html: generateConfirmationEmail(fullName, message),
-        })
+        await sendEmail(
+          email,
+          'Thank you for contacting BrandTalk',
+          generateConfirmationEmail(fullName, message)
+        )
       } catch (confirmError) {
         console.error('Confirmation email failed:', confirmError)
       }
     } else {
-      console.warn(
-        'RESEND_API_KEY not set. Submission logged but no email sent.'
-      )
+      console.warn('RESEND_API_KEY not set. Submission logged but no email sent.')
     }
 
     return NextResponse.json(

@@ -4,8 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Root styles */
+/* ---------------------------------------------------------------------------
+   Base
+   Written as plain CSS on purpose: @apply resolves at build time and a single
+   unknown utility fails the whole production build. Utility classes are still
+   used freely inside components.
+   --------------------------------------------------------------------------- */
+
 :root {
+  --navy-900: #1a1a1a;
+  --navy-800: #3a426e;
+  --navy-50: #f6f7f9;
+  --gold-600: #c9a961;
+  --gold-700: #a88550;
+  --terracotta-600: #d4896e;
+  --cream: #f8f6f3;
+  --gray-50: #f9fafb;
+  --gray-400: #9ca3af;
   scroll-behavior: smooth;
 }
 
@@ -14,9 +29,9 @@ html {
 }
 
 body {
-  background-color: #f8f6f3;
-  color: #1a1a1a;
-  font-family: 'Inter', sans-serif;
+  background-color: var(--cream);
+  color: var(--navy-900);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
 }
 
@@ -32,72 +47,169 @@ h6 {
 }
 
 h1 {
-  @apply text-display-lg;
+  font-size: 4.5rem;
+  line-height: 1.1;
+  font-weight: 700;
 }
 
 h2 {
-  @apply text-display-md;
+  font-size: 3.5rem;
+  line-height: 1.15;
+  font-weight: 700;
 }
 
 h3 {
-  @apply text-heading-lg;
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 600;
 }
 
 /* Links */
 a {
-  @apply transition-colors duration-150;
+  transition: color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 a:not(.button) {
-  @apply relative text-navy-900 hover:text-gold-600;
+  position: relative;
+  color: var(--navy-900);
 }
 
-/* Underline animation for links */
+a:not(.button):hover {
+  color: var(--gold-600);
+}
+
+/* Underline grows from the left on hover */
 a:not(.button)::after {
   content: '';
-  @apply absolute bottom-0 left-0 w-full h-0.5 bg-gold-600 scale-x-0 origin-left transition-transform duration-150;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--gold-600);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 a:not(.button):hover::after {
-  @apply scale-x-100;
+  transform: scaleX(1);
 }
 
 /* Buttons */
 .button {
-  @apply inline-flex items-center justify-center px-6 py-3 font-semibold transition-all duration-200 rounded-lg;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: background-color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button:hover {
+  transform: scale(1.02);
 }
 
 .button-primary {
-  @apply button bg-navy-900 text-white hover:bg-navy-800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background-color: var(--navy-900);
+  color: #ffffff;
+  transition: background-color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button-primary:hover {
+  background-color: var(--navy-800);
+  transform: scale(1.02);
 }
 
 .button-secondary {
-  @apply button border-2 border-navy-900 text-navy-900 hover:bg-navy-50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: 2px solid var(--navy-900);
+  color: var(--navy-900);
+  transition: background-color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button-secondary:hover {
+  background-color: var(--navy-50);
+  transform: scale(1.02);
 }
 
 .button-gold {
-  @apply button bg-gold-600 text-navy-900 hover:bg-gold-700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background-color: var(--gold-600);
+  color: var(--navy-900);
+  transition: background-color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button-gold:hover {
+  background-color: var(--gold-700);
+  transform: scale(1.02);
 }
 
 .button-ghost {
-  @apply button text-navy-900 hover:bg-navy-50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  color: var(--navy-900);
+  transition: background-color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button-ghost:hover {
+  background-color: var(--navy-50);
 }
 
 /* Form elements */
 input,
 textarea,
 select {
-  @apply bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0;
+  background-color: #ffffff;
+  border: 0;
+  border-bottom: 2px solid var(--gold-600);
+  border-radius: 0;
+  padding: 0.5rem 0;
+  color: var(--navy-900);
+  font-family: inherit;
+  transition: border-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 input::placeholder,
 textarea::placeholder {
-  @apply text-gray-400;
+  color: var(--gray-400);
 }
 
 input:focus,
-textarea:focus {
-  @apply bg-gray-50;
+textarea:focus,
+select:focus {
+  outline: none;
+  border-bottom-color: var(--navy-900);
+  background-color: var(--gray-50);
+  box-shadow: none;
 }
 
 /* Scrollbar */
@@ -107,39 +219,56 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8f6f3;
+  background: var(--cream);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4896e;
+  background: var(--terracotta-600);
   border-radius: 6px;
-  border: 3px solid #f8f6f3;
+  border: 3px solid var(--cream);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c9a961;
+  background: var(--gold-600);
 }
 
-/* Firefox scrollbar */
 * {
-  scrollbar-color: #d4896e #f8f6f3;
+  scrollbar-color: var(--terracotta-600) var(--cream);
   scrollbar-width: thin;
 }
 
-/* Selection color */
+/* Selection */
 ::selection {
-  background-color: #c9a961;
-  color: #1a1a1a;
+  background-color: var(--gold-600);
+  color: var(--navy-900);
 }
 
 ::-moz-selection {
-  background-color: #c9a961;
-  color: #1a1a1a;
+  background-color: var(--gold-600);
+  color: var(--navy-900);
 }
 
-/* Utility classes */
+/* Utilities */
 .container-custom {
-  @apply max-w-7xl mx-auto px-4 md:px-8 lg:px-12;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 }
 
 .grid-cols-auto {
@@ -225,22 +354,25 @@ textarea:focus {
   }
 }
 
-/* Responsive typography adjustments */
+/* Responsive typography */
 @media (max-width: 768px) {
   h1 {
-    @apply text-3xl;
+    font-size: 2.25rem;
+    line-height: 1.15;
   }
 
   h2 {
-    @apply text-2xl;
+    font-size: 1.875rem;
+    line-height: 1.2;
   }
 
   h3 {
-    @apply text-xl;
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
 }
 
-/* Accessibility improvements */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -252,7 +384,7 @@ textarea:focus {
   }
 }
 
-/* Print styles */
+/* Print */
 @media print {
   body {
     background: white;

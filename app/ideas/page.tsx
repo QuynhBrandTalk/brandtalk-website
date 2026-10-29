@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from 'framer-motion'
+import { motion } from '@/components/Motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import Hero from '@/components/Hero'

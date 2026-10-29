@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion } from '@/components/Motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/Section'

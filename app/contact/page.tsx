@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from 'framer-motion'
+import { motion } from '@/components/Motion'
 import Hero from '@/components/Hero'
 import Section from '@/components/Section'
 import ContactForm from '@/components/ContactForm'

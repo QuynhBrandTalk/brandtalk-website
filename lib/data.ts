@@ -105,6 +105,7 @@ export const SERVICES: Service[] = [
 export const CASE_STUDIES: CaseStudy[] = [
   {
     id: 'case-1',
+    createdAt: '2024-09-12',
     slug: 'hoa-tien-brocade-heritage-textile-revival',
     title: 'Hoa Tiên Brocade: From Workshop to Global Market',
     client: 'Hoa Tiên Brocade Collective',
@@ -143,6 +144,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     id: 'case-2',
+    createdAt: '2024-11-05',
     slug: 'gom-sen-pottery-heritage-ecommerce',
     title: 'Gốm Sen: Ceramic Artistry Meets Modern Commerce',
     client: 'Gốm Sen Pottery Workshop',
@@ -182,6 +184,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     id: 'case-3',
+    createdAt: '2025-01-20',
     slug: 'nuoc-mam-mười-quy-artisanal-fish-sauce',
     title: 'Nước Mắm Mười Quý: Premium Fish Sauce Pioneer',
     client: 'Nước Mắm Mười Quý',

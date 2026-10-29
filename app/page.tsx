@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from '@/components/Motion'
+import { MotionDiv, MotionH2, MotionP } from '@/components/Motion'
 import Hero from '@/components/Hero'
 import Section from '@/components/Section'
 import ServiceCard from '@/components/ServiceCard'
@@ -35,15 +35,15 @@ export default function Home() {
       {/* Value Proposition */}
       <Section id="why-brandtalk">
         <div className="mb-12">
-          <motion.h2
+          <MotionH2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-display-md font-bold text-navy-900 mb-6 text-center"
           >
             Why BrandTalk Exists
-          </motion.h2>
-          <motion.p
+          </MotionH2>
+          <MotionP
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -51,11 +51,11 @@ export default function Home() {
             className="text-heading-md text-gray-700 text-center max-w-2xl mx-auto mb-12 text-balance"
           >
             Vietnamese e-commerce grows 25%+ annually. Heritage brands struggle with authenticity in digital spaces. We help you become more fully yourself—digitally.
-          </motion.p>
+          </MotionP>
         </div>
 
         {/* Three Column Insights */}
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -82,7 +82,7 @@ export default function Home() {
                 'Start with WHY. Elevate heritage through modern channels. Build sustainable, profitable brands that honor tradition.',
             },
           ].map((item, idx) => (
-            <motion.div
+            <MotionDiv
               key={idx}
               variants={itemVariants}
               className="bg-white rounded-lg p-8 border border-navy-100 hover:border-gold-600 transition-colors"
@@ -92,23 +92,23 @@ export default function Home() {
                 {item.title}
               </h3>
               <p className="text-body-base text-gray-700">{item.description}</p>
-            </motion.div>
+            </MotionDiv>
           ))}
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Core Services */}
       <Section variant="light">
         <div className="mb-12">
-          <motion.h2
+          <MotionH2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-display-md font-bold text-navy-900 mb-4 text-center"
           >
             Our Services
-          </motion.h2>
-          <motion.p
+          </MotionH2>
+          <MotionP
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -116,10 +116,10 @@ export default function Home() {
             className="text-heading-md text-gray-700 text-center max-w-2xl mx-auto text-balance"
           >
             Tailored solutions for every stage of your brand transformation
-          </motion.p>
+          </MotionP>
         </div>
 
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -137,9 +137,9 @@ export default function Home() {
               index={idx}
             />
           ))}
-        </motion.div>
+        </MotionDiv>
 
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -149,23 +149,23 @@ export default function Home() {
             Explore All Services
             <span className="ml-2">→</span>
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Featured Case Study */}
       <Section id="featured-work">
         <div className="mb-12">
-          <motion.h2
+          <MotionH2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-display-md font-bold text-navy-900 mb-6 text-center"
           >
             Featured Work
-          </motion.h2>
+          </MotionH2>
         </div>
 
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -183,9 +183,9 @@ export default function Home() {
               index={idx}
             />
           ))}
-        </motion.div>
+        </MotionDiv>
 
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -195,14 +195,14 @@ export default function Home() {
             View All Case Studies
             <span className="ml-2">→</span>
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Founder's Voice */}
       <Section variant="dark">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -238,10 +238,10 @@ export default function Home() {
                 Connect on LinkedIn →
               </Link>
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Image */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -253,13 +253,13 @@ export default function Home() {
               alt="Phan Như Quỳnh"
               className="w-full h-full object-cover"
             />
-          </motion.div>
+          </MotionDiv>
         </div>
       </Section>
 
       {/* Newsletter CTA */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -287,12 +287,12 @@ export default function Home() {
           <p className="text-body-sm text-gray-500 mt-4">
             No spam. One email per month. Unsubscribe anytime.
           </p>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Final CTA */}
       <Section>
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -307,7 +307,7 @@ export default function Home() {
           <Link href="/contact" className="button button-gold">
             Schedule a Discovery Call
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
     </>
   )

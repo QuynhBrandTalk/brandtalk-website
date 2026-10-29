@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from '@/components/Motion'
+import { MotionDiv } from '@/components/Motion'
 import Hero from '@/components/Hero'
 import Section from '@/components/Section'
 import CaseStudyCard from '@/components/CaseStudyCard'
@@ -23,7 +23,7 @@ export default function Work() {
 
       {/* Case Studies Grid */}
       <Section>
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -41,12 +41,12 @@ export default function Work() {
               index={idx}
             />
           ))}
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Stats */}
       <Section variant="dark">
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -58,7 +58,7 @@ export default function Work() {
             { value: '280%', label: 'Avg. Growth' },
             { value: '15%', label: 'Avg. Conversion' },
           ].map((stat, idx) => (
-            <motion.div
+            <MotionDiv
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -69,14 +69,14 @@ export default function Work() {
                 {stat.value}
               </p>
               <p className="text-heading-md text-gray-300">{stat.label}</p>
-            </motion.div>
+            </MotionDiv>
           ))}
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* CTA */}
       <Section>
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -91,7 +91,7 @@ export default function Work() {
           <Link href="/contact" className="button button-gold">
             Start Your Journey
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
     </>
   )

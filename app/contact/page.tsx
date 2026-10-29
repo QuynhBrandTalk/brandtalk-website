@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from '@/components/Motion'
+import { MotionDetails, MotionDiv } from '@/components/Motion'
 import Hero from '@/components/Hero'
 import Section from '@/components/Section'
 import ContactForm from '@/components/ContactForm'
@@ -22,7 +22,7 @@ export default function Contact() {
 
       {/* Contact Section */}
       <Section>
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -30,7 +30,7 @@ export default function Contact() {
           className="grid grid-cols-1 lg:grid-cols-3 gap-12"
         >
           {/* Contact Info */}
-          <motion.div variants={itemVariants} className="lg:col-span-1">
+          <MotionDiv variants={itemVariants} className="lg:col-span-1">
             <h3 className="text-heading-lg font-bold text-navy-900 mb-8">
               Contact Info
             </h3>
@@ -116,21 +116,21 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Contact Form */}
-          <motion.div variants={itemVariants} className="lg:col-span-2">
+          <MotionDiv variants={itemVariants} className="lg:col-span-2">
             <h3 className="text-heading-lg font-bold text-navy-900 mb-8">
               Send us a Message
             </h3>
             <ContactForm />
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </Section>
 
       {/* Calendar Section */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -152,12 +152,12 @@ export default function Contact() {
               In production, connect to Cal.com or Calendly for instant booking
             </p>
           </div>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* FAQ Section */}
       <Section>
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -167,7 +167,7 @@ export default function Contact() {
             Frequently Asked Questions
           </h2>
 
-          <motion.div
+          <MotionDiv
             variants={containerVariants}
             initial="initial"
             whileInView="animate"
@@ -196,7 +196,7 @@ export default function Contact() {
                 a: 'Yes. Many clients continue with quarterly check-ins or advisory sessions after their main engagement concludes. This is customizable.',
               },
             ].map((faq, idx) => (
-              <motion.details
+              <MotionDetails
                 key={idx}
                 variants={itemVariants}
                 className="bg-white rounded-lg p-6 border border-navy-100 hover:border-gold-600 transition-colors group cursor-pointer"
@@ -208,15 +208,15 @@ export default function Contact() {
                   </span>
                 </summary>
                 <p className="text-body-base text-gray-700 mt-4">{faq.a}</p>
-              </motion.details>
+              </MotionDetails>
             ))}
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </Section>
 
       {/* Final CTA */}
       <Section variant="dark">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -236,7 +236,7 @@ export default function Contact() {
               Back Home
             </Link>
           </div>
-        </motion.div>
+        </MotionDiv>
       </Section>
     </>
   )

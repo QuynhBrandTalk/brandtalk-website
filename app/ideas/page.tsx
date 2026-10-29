@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from '@/components/Motion'
+import { MotionDiv } from '@/components/Motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import Hero from '@/components/Hero'
@@ -28,7 +28,7 @@ export default function Ideas() {
       {/* Featured Article */}
       <Section variant="light">
         <Link href={`/ideas/${featured.slug}`} className="group">
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -74,13 +74,13 @@ export default function Ideas() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
         </Link>
       </Section>
 
       {/* More Articles */}
       <Section>
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -90,9 +90,9 @@ export default function Ideas() {
             More Articles
           </h2>
           <div className="w-12 h-1 bg-gradient-to-r from-gold-600 to-transparent" />
-        </motion.div>
+        </MotionDiv>
 
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -105,7 +105,7 @@ export default function Ideas() {
               href={`/ideas/${article.slug}`}
               className="group"
             >
-              <motion.div
+              <MotionDiv
                 variants={itemVariants}
                 className="bg-white rounded-lg p-6 border border-navy-100 hover:border-gold-600 hover:shadow-lg transition-all flex gap-6"
               >
@@ -147,15 +147,15 @@ export default function Ideas() {
                     </span>
                   </div>
                 </div>
-              </motion.div>
+              </MotionDiv>
             </Link>
           ))}
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Subscribe */}
       <Section variant="dark">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -183,7 +183,7 @@ export default function Ideas() {
           <p className="text-body-sm text-gray-400 mt-4">
             No spam. One email per month. Unsubscribe anytime.
           </p>
-        </motion.div>
+        </MotionDiv>
       </Section>
     </>
   )

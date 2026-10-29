@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { motion } from '@/components/Motion'
+import { MotionDiv, MotionH2 } from '@/components/Motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/Section'
@@ -71,7 +71,7 @@ export default function CaseStudyDetail({ params }: PageProps) {
 
       {/* Hero Content */}
       <Section className="relative -mt-24 md:-mt-32">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-lg p-8 md:p-12 max-w-4xl mx-auto relative z-10"
@@ -83,12 +83,12 @@ export default function CaseStudyDetail({ params }: PageProps) {
             {study.title}
           </h1>
           <p className="text-heading-md text-gray-700">{study.description}</p>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Content Sections */}
       <Section>
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -96,37 +96,37 @@ export default function CaseStudyDetail({ params }: PageProps) {
           className="max-w-4xl mx-auto space-y-12"
         >
           {/* Challenge */}
-          <motion.div variants={itemVariants}>
+          <MotionDiv variants={itemVariants}>
             <h2 className="text-heading-lg font-bold text-navy-900 mb-4">
               The Challenge
             </h2>
             <p className="text-body-lg text-gray-700 whitespace-pre-wrap">
               {study.challenge}
             </p>
-          </motion.div>
+          </MotionDiv>
 
           {/* Approach */}
-          <motion.div variants={itemVariants}>
+          <MotionDiv variants={itemVariants}>
             <h2 className="text-heading-lg font-bold text-navy-900 mb-4">
               Our Approach
             </h2>
             <p className="text-body-lg text-gray-700 whitespace-pre-wrap">
               {study.approach}
             </p>
-          </motion.div>
+          </MotionDiv>
 
           {/* Solution */}
-          <motion.div variants={itemVariants}>
+          <MotionDiv variants={itemVariants}>
             <h2 className="text-heading-lg font-bold text-navy-900 mb-4">
               The Solution
             </h2>
             <p className="text-body-lg text-gray-700 whitespace-pre-wrap">
               {study.solution}
             </p>
-          </motion.div>
+          </MotionDiv>
 
           {/* Results */}
-          <motion.div variants={itemVariants}>
+          <MotionDiv variants={itemVariants}>
             <h2 className="text-heading-lg font-bold text-navy-900 mb-6">
               Results & Outcomes
             </h2>
@@ -153,11 +153,11 @@ export default function CaseStudyDetail({ params }: PageProps) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </MotionDiv>
 
           {/* Testimonial */}
           {study.testimonial && (
-            <motion.div
+            <MotionDiv
               variants={itemVariants}
               className="bg-gold-50 rounded-lg p-8 border-l-4 border-gold-600"
             >
@@ -170,11 +170,11 @@ export default function CaseStudyDetail({ params }: PageProps) {
               <p className="text-body-sm text-gray-600">
                 {study.testimonial.role}
               </p>
-            </motion.div>
+            </MotionDiv>
           )}
 
           {/* Services */}
-          <motion.div variants={itemVariants}>
+          <MotionDiv variants={itemVariants}>
             <h3 className="text-heading-md font-bold text-navy-900 mb-4">
               Services Delivered
             </h3>
@@ -188,13 +188,13 @@ export default function CaseStudyDetail({ params }: PageProps) {
                 </span>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </Section>
 
       {/* CTA */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -209,22 +209,22 @@ export default function CaseStudyDetail({ params }: PageProps) {
           <Link href="/contact" className="button button-gold">
             Schedule a Discovery Call
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Related Case Studies */}
       {relatedStudies.length > 0 && (
         <Section>
-          <motion.h2
+          <MotionH2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-display-md font-bold text-navy-900 mb-12 text-center"
           >
             More Case Studies
-          </motion.h2>
+          </MotionH2>
 
-          <motion.div
+          <MotionDiv
             variants={containerVariants}
             initial="initial"
             whileInView="animate"
@@ -232,7 +232,7 @@ export default function CaseStudyDetail({ params }: PageProps) {
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
             {relatedStudies.map((relatedStudy) => (
-              <motion.div
+              <MotionDiv
                 key={relatedStudy.id}
                 variants={itemVariants}
                 className="relative overflow-hidden rounded-lg bg-white h-64 cursor-pointer hover:shadow-xl transition-shadow"
@@ -253,9 +253,9 @@ export default function CaseStudyDetail({ params }: PageProps) {
                     </h3>
                   </div>
                 </Link>
-              </motion.div>
+              </MotionDiv>
             ))}
-          </motion.div>
+          </MotionDiv>
         </Section>
       )}
 

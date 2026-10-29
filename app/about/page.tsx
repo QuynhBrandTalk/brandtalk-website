@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from '@/components/Motion'
+import { MotionDiv, MotionH2, MotionP } from '@/components/Motion'
 import Hero from '@/components/Hero'
 import Section from '@/components/Section'
 import Link from 'next/link'
@@ -50,7 +50,7 @@ export default function About() {
       <Section>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -70,10 +70,10 @@ export default function About() {
                 That insight led to BrandTalk. We're here to mentor heritage brands through transformation. Not by abandoning their roots, but by translating them into the language of modern commerce.
               </p>
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Image */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -85,20 +85,20 @@ export default function About() {
               alt="BrandTalk journey"
               className="w-full h-full object-cover"
             />
-          </motion.div>
+          </MotionDiv>
         </div>
       </Section>
 
       {/* Vision & Mission */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
         >
-          <motion.div
+          <MotionDiv
             variants={itemVariants}
             className="bg-white rounded-lg p-8 border-2 border-gold-600"
           >
@@ -108,9 +108,9 @@ export default function About() {
             <p className="text-body-lg text-gray-700">
               Elevate Vietnamese heritage brands as global exemplars—brands that honor tradition while innovating for the future.
             </p>
-          </motion.div>
+          </MotionDiv>
 
-          <motion.div
+          <MotionDiv
             variants={itemVariants}
             className="bg-white rounded-lg p-8 border-2 border-terracotta-600"
           >
@@ -120,22 +120,22 @@ export default function About() {
             <p className="text-body-lg text-gray-700">
               Mentor Vietnamese heritage brands and SMEs through strategic digital transformation, grounded in cultural authenticity and commercial viability.
             </p>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </Section>
 
       {/* Core Values */}
       <Section>
         <div className="mb-12">
-          <motion.h2
+          <MotionH2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-display-md font-bold text-navy-900 mb-4 text-center"
           >
             Our Core Values
-          </motion.h2>
-          <motion.p
+          </MotionH2>
+          <MotionP
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -143,10 +143,10 @@ export default function About() {
             className="text-heading-md text-gray-700 text-center max-w-2xl mx-auto text-balance"
           >
             These principles guide every decision we make
-          </motion.p>
+          </MotionP>
         </div>
 
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -154,7 +154,7 @@ export default function About() {
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
           {values.map((value, idx) => (
-            <motion.div
+            <MotionDiv
               key={idx}
               variants={itemVariants}
               className="bg-white rounded-lg p-8 border border-navy-100 hover:border-gold-600 transition-colors"
@@ -173,16 +173,16 @@ export default function About() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </MotionDiv>
           ))}
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Founder Section */}
       <Section variant="dark">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Image */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -194,10 +194,10 @@ export default function About() {
               alt="Phan Như Quỳnh"
               className="w-full h-full object-cover"
             />
-          </motion.div>
+          </MotionDiv>
 
           {/* Text */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -232,13 +232,13 @@ export default function About() {
               Connect on LinkedIn
               <span>→</span>
             </Link>
-          </motion.div>
+          </MotionDiv>
         </div>
       </Section>
 
       {/* Why Heritage Brands Matter */}
       <Section>
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -259,12 +259,12 @@ export default function About() {
               We're here to change that. Heritage brands don't need to become like other brands. They need to become more fully themselves—embracing tradition while innovating for the future. That's where real, sustainable growth happens.
             </p>
           </div>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* CTA */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -279,7 +279,7 @@ export default function About() {
           <Link href="/contact" className="button button-gold">
             Schedule a Discovery Call
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
     </>
   )

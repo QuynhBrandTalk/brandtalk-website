@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { motion } from '@/components/Motion'
+import { MotionDiv } from '@/components/Motion'
 import Hero from '@/components/Hero'
 import Section from '@/components/Section'
 import ServiceCard from '@/components/ServiceCard'
@@ -23,7 +23,7 @@ export default function Services() {
 
       {/* Services Grid */}
       <Section>
-        <motion.div
+        <MotionDiv
           variants={containerVariants}
           initial="initial"
           whileInView="animate"
@@ -41,7 +41,7 @@ export default function Services() {
               index={idx}
             />
           ))}
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Detailed Service Sections */}
@@ -52,7 +52,7 @@ export default function Services() {
           variant={idx % 2 === 0 ? 'light' : 'default'}
         >
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -64,10 +64,10 @@ export default function Services() {
               <p className="text-heading-md text-gray-700">
                 {service.description}
               </p>
-            </motion.div>
+            </MotionDiv>
 
             {/* Key Services */}
-            <motion.div
+            <MotionDiv
               variants={containerVariants}
               initial="initial"
               whileInView="animate"
@@ -79,7 +79,7 @@ export default function Services() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {service.keyServices.map((item, itemIdx) => (
-                  <motion.div
+                  <MotionDiv
                     key={itemIdx}
                     variants={itemVariants}
                     className="flex items-start gap-3 bg-white rounded-lg p-4 border border-navy-100"
@@ -88,13 +88,13 @@ export default function Services() {
                       ✓
                     </span>
                     <span className="text-body-base text-gray-700">{item}</span>
-                  </motion.div>
+                  </MotionDiv>
                 ))}
               </div>
-            </motion.div>
+            </MotionDiv>
 
             {/* Benefits */}
-            <motion.div
+            <MotionDiv
               variants={containerVariants}
               initial="initial"
               whileInView="animate"
@@ -105,7 +105,7 @@ export default function Services() {
               </h3>
               <div className="space-y-3">
                 {service.benefits.map((benefit, benefitIdx) => (
-                  <motion.div
+                  <MotionDiv
                     key={benefitIdx}
                     variants={itemVariants}
                     className="bg-gold-50 rounded-lg p-4 border-l-4 border-gold-600"
@@ -113,17 +113,17 @@ export default function Services() {
                     <p className="text-body-base text-navy-900 font-medium">
                       {benefit}
                     </p>
-                  </motion.div>
+                  </MotionDiv>
                 ))}
               </div>
-            </motion.div>
+            </MotionDiv>
           </div>
         </Section>
       ))}
 
       {/* Engagement Model */}
       <Section variant="dark">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -162,12 +162,12 @@ export default function Services() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Comparison Table */}
       <Section className="overflow-x-auto">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -176,7 +176,7 @@ export default function Services() {
           <h2 className="text-display-md font-bold text-navy-900 mb-6 text-center">
             Quick Service Comparison
           </h2>
-        </motion.div>
+        </MotionDiv>
 
         <div className="overflow-x-auto rounded-lg border border-navy-100">
           <table className="w-full">
@@ -217,7 +217,7 @@ export default function Services() {
 
       {/* CTA */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -232,7 +232,7 @@ export default function Services() {
           <Link href="/contact" className="button button-gold">
             Schedule a Discovery Call
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
     </>
   )

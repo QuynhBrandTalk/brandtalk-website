@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { motion } from '@/components/Motion'
+import { MotionDiv, MotionH2 } from '@/components/Motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/Section'
@@ -72,7 +72,7 @@ export default function ArticleDetail({ params }: PageProps) {
 
       {/* Article Header */}
       <Section className="relative -mt-24 md:-mt-32">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-lg p-8 md:p-12 max-w-4xl mx-auto relative z-10"
@@ -103,12 +103,12 @@ export default function ArticleDetail({ params }: PageProps) {
               <p className="text-body-sm text-gray-600">{article.author.role}</p>
             </div>
           </div>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Article Content */}
       <Section>
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -137,12 +137,12 @@ export default function ArticleDetail({ params }: PageProps) {
                 .join(''),
             }}
           />
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Social Sharing & CTA */}
       <Section variant="light">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -168,22 +168,22 @@ export default function ArticleDetail({ params }: PageProps) {
               Share via Email
             </a>
           </div>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
         <Section>
-          <motion.h2
+          <MotionH2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-display-md font-bold text-navy-900 mb-12 text-center"
           >
             More Insights
-          </motion.h2>
+          </MotionH2>
 
-          <motion.div
+          <MotionDiv
             variants={containerVariants}
             initial="initial"
             whileInView="animate"
@@ -196,7 +196,7 @@ export default function ArticleDetail({ params }: PageProps) {
                 href={`/ideas/${relatedArticle.slug}`}
                 className="group"
               >
-                <motion.div
+                <MotionDiv
                   variants={itemVariants}
                   className="bg-white rounded-lg overflow-hidden border border-navy-100 hover:border-gold-600 hover:shadow-lg transition-all"
                 >
@@ -228,16 +228,16 @@ export default function ArticleDetail({ params }: PageProps) {
                       {relatedArticle.readTime} min read
                     </p>
                   </div>
-                </motion.div>
+                </MotionDiv>
               </Link>
             ))}
-          </motion.div>
+          </MotionDiv>
         </Section>
       )}
 
       {/* CTA */}
       <Section variant="dark">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -252,7 +252,7 @@ export default function ArticleDetail({ params }: PageProps) {
           <Link href="/contact" className="button button-gold">
             Schedule a Discovery Call
           </Link>
-        </motion.div>
+        </MotionDiv>
       </Section>
 
       {/* Navigation */}

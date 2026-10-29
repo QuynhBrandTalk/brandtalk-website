@@ -175,7 +175,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['Heritage Brand Storytelling', 'E-Commerce Strategy', 'Community Building'],
     testimonial: {
       quote:
-        'Gốm Sen was heading toward obsolescence. BrandTalk showed us our pottery wasn't old-fashioned—it was timeless. By positioning craft as art and heritage as value, we attracted a completely new customer who appreciates our work and pays accordingly. Our kiln is running 24/7 now.',
+        'Gốm Sen was heading toward obsolescence. BrandTalk showed us our pottery was not old-fashioned—it was timeless. By positioning craft as art and heritage as value, we attracted a completely new customer who appreciates our work and pays accordingly. Our kiln is running 24/7 now.',
       author: 'Nguyễn Văn Kiên',
       role: 'Master Artisan & Co-founder, Gốm Sen',
     },

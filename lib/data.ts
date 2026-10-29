@@ -185,7 +185,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     id: 'case-3',
     createdAt: '2025-01-20',
-    slug: 'nuoc-mam-mười-quy-artisanal-fish-sauce',
+    slug: 'nuoc-mam-muoi-quy-artisanal-fish-sauce',
     title: 'Nước Mắm Mười Quý: Premium Fish Sauce Pioneer',
     client: 'Nước Mắm Mười Quý',
     industry: 'Artisanal Foods / Heritage Condiments',

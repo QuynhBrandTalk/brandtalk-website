@@ -1,229 +1,162 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { containerVariants, itemVariants } from '@/lib/animations'
+import { useState, type FormEvent } from 'react'
+import { contact } from '@/lib/content'
+import { useLang } from '@/lib/i18n'
 
-// Validation schema
-const contactFormSchema = z.object({
-  fullName: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email'),
-  company: z.string().min(2, 'Company name is required'),
-  industry: z.string().min(1, 'Please select an industry'),
-  serviceInterest: z.string().min(1, 'Please select a service'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  scheduleCall: z.boolean().optional(),
-})
+type Status = 'idle' | 'sending' | 'sent' | 'error'
 
-type FormData = z.infer<typeof contactFormSchema>
+const fieldClass =
+  'w-full border-0 border-b border-indigo-line bg-transparent px-0 py-2.5 text-body text-shell-bright transition-colors duration-200 placeholder:text-shell-dim/70 focus:border-celadon focus:outline-none focus:ring-0'
 
 export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const { t, lang } = useLang()
+  const f = contact.form
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>({
-    resolver: zodResolver(contactFormSchema),
-  })
+  const [status, setStatus] = useState<Status>('idle')
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
-  const onSubmit = async (data: FormData) => {
-    setIsLoading(true)
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    const data = new FormData(form)
+
+    const payload = {
+      fullName: String(data.get('fullName') || '').trim(),
+      email: String(data.get('email') || '').trim(),
+      company: String(data.get('company') || '').trim(),
+      industry: '',
+      serviceInterest: String(data.get('serviceInterest') || ''),
+      message: String(data.get('message') || '').trim(),
+      scheduleCall: data.get('scheduleCall') === 'on',
+    }
+
+    const nextErrors: Record<string, string> = {}
+    if (!payload.fullName) nextErrors.fullName = t(f.required)
+    if (!payload.company) nextErrors.company = t(f.required)
+    if (!payload.message) nextErrors.message = t(f.required)
+    if (!payload.email) {
+      nextErrors.email = t(f.required)
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      nextErrors.email = t(f.invalidEmail)
+    }
+
+    setErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) return
+
+    setStatus('sending')
     try {
-      // Simulate API call - replace with actual endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      console.log('Form submitted:', data)
-      setSubmitted(true)
-      reset()
-
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitted(false), 5000)
-    } catch (error) {
-      console.error('Error submitting form:', error)
-    } finally {
-      setIsLoading(false)
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) throw new Error('Request failed')
+      setStatus('sent')
+      form.reset()
+    } catch {
+      setStatus('error')
     }
   }
 
+  if (status === 'sent') {
+    return (
+      <p
+        role="status"
+        className="border-l-2 border-celadon py-2 pl-5 text-lede text-shell-bright"
+      >
+        {t(f.success)}
+      </p>
+    )
+  }
+
   return (
-    <motion.form
-      variants={containerVariants}
-      initial="initial"
-      whileInView="animate"
-      viewport={{ once: true }}
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
-      {/* Success Message */}
-      {submitted && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="bg-green-50 border border-green-200 rounded-lg p-4 text-green-800"
-        >
-          <p className="font-semibold">Thank you for reaching out!</p>
-          <p className="text-sm mt-1">
-            We'll get back to you within 48 hours.
-          </p>
-        </motion.div>
-      )}
+    <form onSubmit={handleSubmit} noValidate className="space-y-8">
+      <Field id="fullName" label={t(f.name)} error={errors.fullName}>
+        <input id="fullName" name="fullName" type="text" className={fieldClass} />
+      </Field>
 
-      {/* Full Name */}
-      <motion.div variants={itemVariants}>
-        <label htmlFor="fullName" className="block text-body-sm font-semibold text-navy-900 mb-2">
-          Full Name *
-        </label>
-        <input
-          id="fullName"
-          type="text"
-          {...register('fullName')}
-          placeholder="Your name"
-          className="w-full bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0"
-        />
-        {errors.fullName && (
-          <p className="text-red-600 text-body-sm mt-1">
-            {errors.fullName.message}
-          </p>
-        )}
-      </motion.div>
+      <Field id="email" label={t(f.email)} error={errors.email}>
+        <input id="email" name="email" type="email" className={fieldClass} />
+      </Field>
 
-      {/* Email */}
-      <motion.div variants={itemVariants}>
-        <label htmlFor="email" className="block text-body-sm font-semibold text-navy-900 mb-2">
-          Email *
-        </label>
-        <input
-          id="email"
-          type="email"
-          {...register('email')}
-          placeholder="your@email.com"
-          className="w-full bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0"
-        />
-        {errors.email && (
-          <p className="text-red-600 text-body-sm mt-1">{errors.email.message}</p>
-        )}
-      </motion.div>
+      <Field id="company" label={t(f.company)} error={errors.company}>
+        <input id="company" name="company" type="text" className={fieldClass} />
+      </Field>
 
-      {/* Company */}
-      <motion.div variants={itemVariants}>
-        <label htmlFor="company" className="block text-body-sm font-semibold text-navy-900 mb-2">
-          Company *
-        </label>
-        <input
-          id="company"
-          type="text"
-          {...register('company')}
-          placeholder="Your company"
-          className="w-full bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0"
-        />
-        {errors.company && (
-          <p className="text-red-600 text-body-sm mt-1">
-            {errors.company.message}
-          </p>
-        )}
-      </motion.div>
-
-      {/* Industry */}
-      <motion.div variants={itemVariants}>
-        <label htmlFor="industry" className="block text-body-sm font-semibold text-navy-900 mb-2">
-          Industry *
-        </label>
-        <select
-          id="industry"
-          {...register('industry')}
-          className="w-full bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0"
-        >
-          <option value="">Select an industry</option>
-          <option value="food-beverage">Food & Beverage</option>
-          <option value="fashion-textiles">Fashion & Textiles</option>
-          <option value="home-lifestyle">Home & Lifestyle</option>
-          <option value="technology">Technology</option>
-          <option value="other">Other</option>
-        </select>
-        {errors.industry && (
-          <p className="text-red-600 text-body-sm mt-1">
-            {errors.industry.message}
-          </p>
-        )}
-      </motion.div>
-
-      {/* Service Interest */}
-      <motion.div variants={itemVariants}>
-        <label htmlFor="serviceInterest" className="block text-body-sm font-semibold text-navy-900 mb-2">
-          Service Interest *
-        </label>
+      <Field id="serviceInterest" label={t(f.interest)}>
         <select
           id="serviceInterest"
-          {...register('serviceInterest')}
-          className="w-full bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0"
+          name="serviceInterest"
+          defaultValue="board"
+          className={`${fieldClass} [&>option]:bg-indigo-base [&>option]:text-shell`}
         >
-          <option value="">Select a service</option>
-          <option value="ecommerce">E-Commerce & Shoppertainment</option>
-          <option value="heritage">Heritage Brand Storytelling</option>
-          <option value="transformation">SME Digital Transformation</option>
-          <option value="mentorship">Founder Mentorship</option>
+          {f.interestOptions.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label[lang]}
+            </option>
+          ))}
         </select>
-        {errors.serviceInterest && (
-          <p className="text-red-600 text-body-sm mt-1">
-            {errors.serviceInterest.message}
-          </p>
-        )}
-      </motion.div>
+      </Field>
 
-      {/* Message */}
-      <motion.div variants={itemVariants}>
-        <label htmlFor="message" className="block text-body-sm font-semibold text-navy-900 mb-2">
-          Message *
-        </label>
+      <Field id="message" label={t(f.message)} error={errors.message}>
         <textarea
           id="message"
-          {...register('message')}
-          placeholder="Tell us about your brand and goals..."
-          rows={5}
-          className="w-full bg-white border-b-2 border-gold-600 rounded-none px-0 py-2 font-base text-navy-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-navy-900 focus:ring-0 resize-none"
+          name="message"
+          rows={4}
+          placeholder={t(f.messagePlaceholder)}
+          className={`${fieldClass} resize-y`}
         />
-        {errors.message && (
-          <p className="text-red-600 text-body-sm mt-1">
-            {errors.message.message}
-          </p>
-        )}
-      </motion.div>
+      </Field>
 
-      {/* Schedule Call */}
-      <motion.div variants={itemVariants} className="flex items-center gap-3">
+      <label className="flex items-start gap-3 text-small text-shell">
         <input
-          id="scheduleCall"
           type="checkbox"
-          {...register('scheduleCall')}
-          className="w-4 h-4 rounded border-gold-600 text-gold-600 focus:ring-gold-600 cursor-pointer"
+          name="scheduleCall"
+          className="mt-1 h-4 w-4 shrink-0 accent-celadon"
         />
-        <label htmlFor="scheduleCall" className="text-body-sm text-navy-900 cursor-pointer">
-          Schedule a discovery call with our founder
-        </label>
-      </motion.div>
+        <span>{t(f.call)}</span>
+      </label>
 
-      {/* Submit Button */}
-      <motion.div variants={itemVariants}>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="button button-gold w-full disabled:opacity-50 disabled:cursor-not-allowed text-lg"
-        >
-          {isLoading ? 'Sending...' : 'Send Message'}
-        </button>
-      </motion.div>
+      {status === 'error' && (
+        <p role="alert" className="text-small text-areca">
+          {t(f.error)}
+        </p>
+      )}
 
-      <motion.p variants={itemVariants} className="text-body-sm text-gray-500 text-center">
-        We typically respond within 48 hours.
-      </motion.p>
-    </motion.form>
+      <button
+        type="submit"
+        disabled={status === 'sending'}
+        className="bg-celadon px-7 py-3.5 text-small font-semibold text-indigo-deep transition-colors duration-200 hover:bg-celadon-bright disabled:opacity-60"
+      >
+        {status === 'sending' ? t(f.sending) : t(f.submit)}
+      </button>
+    </form>
+  )
+}
+
+function Field({
+  id,
+  label,
+  error,
+  children,
+}: {
+  id: string
+  label: string
+  error?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-small text-shell-dim">
+        {label}
+      </label>
+      <div className="mt-1">{children}</div>
+      {error && (
+        <p className="mt-2 text-micro text-areca" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
   )
 }

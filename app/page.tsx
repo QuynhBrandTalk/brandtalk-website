@@ -1,314 +1,203 @@
-import { Metadata } from 'next'
-import { MotionDiv, MotionH2, MotionP } from '@/components/Motion'
-import Hero from '@/components/Hero'
-import Section from '@/components/Section'
-import ServiceCard from '@/components/ServiceCard'
-import CaseStudyCard from '@/components/CaseStudyCard'
+'use client'
+
 import Link from 'next/link'
-import { SERVICES, CASE_STUDIES } from '@/lib/data'
-import { getPageSEO, generateOrganizationSchema } from '@/lib/seo'
-import { itemVariants, containerVariants } from '@/lib/animations'
+import { about, approach, brand, clients, home } from '@/lib/content'
+import { useLang } from '@/lib/i18n'
 
-export const metadata: Metadata = getPageSEO('home')
-
-export default function Home() {
-  const featuredCaseStudies = CASE_STUDIES.slice(0, 2)
+export default function HomePage() {
+  const { t, lang } = useLang()
 
   return (
     <>
-      {/* JSON-LD Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(generateOrganizationSchema()),
-        }}
-      />
+      {/* Hero: the vertical frame is the shape this work happens in. */}
+      <section className="shell-pad pb-20 pt-14 sm:pt-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+          <div>
+            <p className="enter enter-1 text-micro font-semibold tracking-wide text-celadon">
+              {t(home.hero.kicker)}
+            </p>
 
-      {/* Hero Section */}
-      <Hero
-        headline="Elevate Your Vietnamese Brand"
-        subheadline="Strategic guidance for heritage brands entering the digital age. From e-commerce strategy to founder mentorship."
-        cta={{ label: "Start Your Journey", href: '/contact' }}
-        backgroundImage="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600&h=1000&fit=crop"
-      />
+            <h1 className="enter enter-2 mt-5 text-display">
+              {t(home.hero.headline)}
+            </h1>
 
-      {/* Value Proposition */}
-      <Section id="why-brandtalk">
-        <div className="mb-12">
-          <MotionH2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-display-md font-bold text-navy-900 mb-6 text-center"
-          >
-            Why BrandTalk Exists
-          </MotionH2>
-          <MotionP
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-heading-md text-gray-700 text-center max-w-2xl mx-auto mb-12 text-balance"
-          >
-            Vietnamese e-commerce grows 25%+ annually. Heritage brands struggle with authenticity in digital spaces. We help you become more fully yourself—digitally.
-          </MotionP>
-        </div>
+            <p className="enter enter-3 mt-7 max-w-[46ch] text-lede text-shell">
+              {t(home.hero.sub)}
+            </p>
 
-        {/* Three Column Insights */}
-        <MotionDiv
-          variants={containerVariants}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
-        >
-          {[
-            {
-              icon: '📈',
-              title: 'The Opportunity',
-              description:
-                'Shoppertainment dominates. Direct-to-consumer models win. Heritage brands have the most authentic stories to tell.',
-            },
-            {
-              icon: '🎯',
-              title: 'The Challenge',
-              description:
-                'Scaling heritage requires strategy, not trends. Most brands chase features instead of building on their roots.',
-            },
-            {
-              icon: '🌱',
-              title: 'Our Approach',
-              description:
-                'Start with WHY. Elevate heritage through modern channels. Build sustainable, profitable brands that honor tradition.',
-            },
-          ].map((item, idx) => (
-            <MotionDiv
-              key={idx}
-              variants={itemVariants}
-              className="bg-white rounded-lg p-8 border border-navy-100 hover:border-gold-600 transition-colors"
-            >
-              <div className="text-4xl mb-4">{item.icon}</div>
-              <h3 className="text-heading-sm font-bold text-navy-900 mb-3">
-                {item.title}
-              </h3>
-              <p className="text-body-base text-gray-700">{item.description}</p>
-            </MotionDiv>
-          ))}
-        </MotionDiv>
-      </Section>
-
-      {/* Core Services */}
-      <Section variant="light">
-        <div className="mb-12">
-          <MotionH2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-display-md font-bold text-navy-900 mb-4 text-center"
-          >
-            Our Services
-          </MotionH2>
-          <MotionP
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-heading-md text-gray-700 text-center max-w-2xl mx-auto text-balance"
-          >
-            Tailored solutions for every stage of your brand transformation
-          </MotionP>
-        </div>
-
-        <MotionDiv
-          variants={containerVariants}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
-          {SERVICES.map((service, idx) => (
-            <ServiceCard
-              key={service.id}
-              title={service.title}
-              description={service.description}
-              keyServices={service.keyServices}
-              benefits={service.benefits}
-              href={`/services`}
-              index={idx}
-            />
-          ))}
-        </MotionDiv>
-
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Link href="/services" className="button button-primary">
-            Explore All Services
-            <span className="ml-2">→</span>
-          </Link>
-        </MotionDiv>
-      </Section>
-
-      {/* Featured Case Study */}
-      <Section id="featured-work">
-        <div className="mb-12">
-          <MotionH2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-display-md font-bold text-navy-900 mb-6 text-center"
-          >
-            Featured Work
-          </MotionH2>
-        </div>
-
-        <MotionDiv
-          variants={containerVariants}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
-        >
-          {featuredCaseStudies.map((study, idx) => (
-            <CaseStudyCard
-              key={study.id}
-              title={study.title}
-              client={study.client}
-              image={study.heroImage}
-              slug={study.slug}
-              results={study.results}
-              index={idx}
-            />
-          ))}
-        </MotionDiv>
-
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <Link href="/work" className="button button-secondary">
-            View All Case Studies
-            <span className="ml-2">→</span>
-          </Link>
-        </MotionDiv>
-      </Section>
-
-      {/* Founder's Voice */}
-      <Section variant="dark">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Text */}
-          <MotionDiv
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-display-md font-bold mb-6 text-white">
-              Start with WHY
-            </h2>
-            <div className="space-y-4 text-body-lg text-gray-100">
-              <p>
-                Every strategic decision should be rooted in purpose, not tactics. Vietnamese heritage brands carry something precious—cultural narratives that span generations. The digital age doesn't diminish that value. It amplifies it.
-              </p>
-              <p>
-                We believe heritage brands deserve more than growth hacks. They deserve strategy that honors their roots while building sustainable, profitable futures. That's why I started BrandTalk.
-              </p>
-              <p>
-                Let's elevate your brand together. More value, more sustainable.
-              </p>
-            </div>
-            <div className="mt-8">
-              <p className="text-heading-sm font-semibold text-gold-400">
-                Phan Như Quỳnh
-              </p>
-              <p className="text-body-base text-gray-300">
-                Founder & Strategic Advisor
-              </p>
+            <div className="enter enter-4 mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gold-400 hover:text-gold-300 text-body-sm font-medium mt-2 inline-block"
+                href="/contact"
+                className="bg-celadon px-6 py-3.5 text-small font-semibold text-indigo-deep transition-colors duration-200 hover:bg-celadon-bright"
               >
-                Connect on LinkedIn →
+                {t(home.hero.cta)}
+              </Link>
+              <Link
+                href="/approach"
+                className="link-underline text-small font-medium text-shell transition-colors duration-200 hover:text-shell-bright"
+              >
+                {t(home.hero.ctaSecondary)}
               </Link>
             </div>
-          </MotionDiv>
+          </div>
 
-          {/* Image */}
-          <MotionDiv
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative h-96 bg-gradient-to-br from-gold-600 to-terracotta-600 rounded-lg overflow-hidden"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=600&fit=crop"
-              alt="Phan Như Quỳnh"
-              className="w-full h-full object-cover"
-            />
-          </MotionDiv>
+          <div className="enter enter-3 mx-auto w-full max-w-[17rem] lg:max-w-none">
+            <div className="frame-vertical flex flex-col justify-between p-5">
+              <div className="flex items-center gap-2">
+                <span className="pulse-live h-1.5 w-1.5 rounded-full bg-areca" />
+                <span className="text-micro font-semibold tracking-wide text-areca">
+                  LIVE
+                </span>
+              </div>
+
+              <ul className="space-y-3">
+                {clients.cases.map((c) => (
+                  <li
+                    key={c.name}
+                    className="border-l border-celadon-dim pl-3 text-small text-shell"
+                  >
+                    <span className="block font-semibold text-shell-bright">
+                      {c.name}
+                    </span>
+                    <span className="block text-micro text-shell-dim">
+                      {t(c.sector)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-micro text-shell-dim">
+                {t(clients.caseLabel)}
+              </p>
+            </div>
+          </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Newsletter CTA */}
-      <Section variant="light">
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-2xl mx-auto text-center"
-        >
-          <h2 className="text-display-md font-bold text-navy-900 mb-4">
-            Stay Ahead of Trends
-          </h2>
-          <p className="text-heading-md text-gray-700 mb-8 text-balance">
-            Monthly insights on Vietnamese e-commerce, heritage brand strategy, and shoppertainment trends.
-          </p>
+      {/* The founder letter, in her own words. */}
+      <section className="shell-pad rule py-20">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.9fr] lg:gap-16">
+          <div>
+            <h2 className="text-title">{t(home.letter.label)}</h2>
+            <p className="mt-4 text-small text-shell-dim">
+              {brand.founder}
+              <span className="block">{t(brand.founderRole)}</span>
+            </p>
+          </div>
 
-          <form className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="flex-1 bg-white border-b-2 border-gold-600 px-4 py-3 text-navy-900 placeholder-gray-400 focus:outline-none focus:border-navy-900"
-              required
-            />
-            <button type="submit" className="button button-gold whitespace-nowrap">
-              Subscribe
-            </button>
-          </form>
+          <div className="space-y-6 text-reading">
+            {home.letter.body[lang].map((para, i) => (
+              <p
+                key={i}
+                className={
+                  i === 0
+                    ? 'font-quote text-lede italic text-shell-bright'
+                    : 'text-body text-shell'
+                }
+              >
+                {para}
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <p className="text-body-sm text-gray-500 mt-4">
-            No spam. One email per month. Unsubscribe anytime.
-          </p>
-        </MotionDiv>
-      </Section>
+      {/* Market context. The percentages are TikTok's published research, not
+          client results. */}
+      <section className="shell-pad rule py-20">
+        <h2 className="max-w-[20ch] text-title">{t(home.marketTitle)}</h2>
 
-      {/* Final CTA */}
-      <Section>
-        <MotionDiv
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-gradient-navy rounded-lg p-12 text-white text-center"
-        >
-          <h2 className="text-display-md font-bold mb-4">
-            Ready to Elevate Your Brand?
-          </h2>
-          <p className="text-heading-md text-gray-200 mb-8 max-w-2xl mx-auto">
-            Let's discuss your brand's next chapter.
-          </p>
-          <Link href="/contact" className="button button-gold">
-            Schedule a Discovery Call
+        <div className="mt-8 grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
+          <div>
+            <p className="text-reading text-body text-shell">
+              {t(home.marketBody)}
+            </p>
+            <p className="mt-5 text-micro text-shell-dim">
+              {t(home.marketSource)}
+            </p>
+          </div>
+
+          <dl className="space-y-6">
+            {home.stats.map((s) => (
+              <div key={s.value} className="flex gap-5">
+                <dt className="w-[3.6rem] shrink-0 font-quote text-[1.9rem] leading-none text-celadon">
+                  {s.value}
+                </dt>
+                <dd className="text-small text-shell">{t(s.label)}</dd>
+              </div>
+            ))}
+            <p className="text-micro text-shell-dim">{t(home.statsSource)}</p>
+          </dl>
+        </div>
+      </section>
+
+      {/* How the work happens. */}
+      <section className="shell-pad rule py-20">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <h2 className="text-title">{t(approach.title)}</h2>
+          <Link
+            href="/approach"
+            className="link-underline text-small text-shell transition-colors duration-200 hover:text-shell-bright"
+          >
+            {t(approach.title)}
           </Link>
-        </MotionDiv>
-      </Section>
+        </div>
+
+        <p className="mt-5 text-reading text-lede text-shell">
+          {t(approach.lede)}
+        </p>
+
+        <ul className="mt-12 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+          {approach.modes.map((m) => (
+            <li key={m.name.en} className="border-t border-indigo-line pt-5">
+              <h3 className="text-subtitle">{t(m.name)}</h3>
+              <p className="mt-3 max-w-[42ch] text-small text-shell">
+                {t(m.body)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Values. */}
+      <section className="shell-pad rule py-20">
+        <h2 className="text-title">{t(about.valuesTitle)}</h2>
+
+        <ul className="mt-10 grid gap-x-12 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+          {about.values.map((v) => (
+            <li key={v.name.en}>
+              <h3 className="text-subtitle text-celadon">{t(v.name)}</h3>
+              <p className="mt-2.5 text-small text-shell">{t(v.body)}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Closing. */}
+      <section className="shell-pad rule py-20">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <figure>
+            <blockquote className="font-quote text-[clamp(1.5rem,3vw,2.2rem)] italic leading-[1.3] text-shell-bright">
+              {t(home.closing.quote)}
+            </blockquote>
+            <figcaption className="mt-4 text-small text-shell-dim">
+              {home.closing.attribution}
+            </figcaption>
+          </figure>
+
+          <div>
+            <p className="text-reading text-body text-shell">
+              {t(home.closing.body)}
+            </p>
+            <Link
+              href="/contact"
+              className="mt-8 inline-block bg-celadon px-6 py-3.5 text-small font-semibold text-indigo-deep transition-colors duration-200 hover:bg-celadon-bright"
+            >
+              {t(home.hero.cta)}
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

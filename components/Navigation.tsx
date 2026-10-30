@@ -1,119 +1,127 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { cn } from '@/lib/utils'
-
-const NAV_ITEMS = [
-  { label: 'Home', href: '/' },
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Services', href: '/services' },
-  { label: 'Ideas', href: '/ideas' },
-  { label: 'Contact', href: '/contact' },
-]
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { brand, nav, ui } from '@/lib/content'
+import { useLang } from '@/lib/i18n'
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+  const { lang, setLang, t } = useLang()
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen)
-  }
+  // Close the panel on navigation, and never leave the page scroll-locked.
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
+  const isCurrent = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <nav className="sticky top-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-navy-100">
-      <div className="container-custom">
-        <div className="flex items-center justify-between py-4 md:py-6">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold text-navy-900 hover:text-gold-600 transition-colors"
-          >
-            BrandTalk
-          </Link>
+    <header className="sticky top-0 z-50 border-b border-indigo-line/70 bg-indigo-deep/90 backdrop-blur">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-10 focus:bg-celadon focus:px-3 focus:py-2 focus:text-micro focus:font-semibold focus:text-indigo-deep"
+      >
+        {t(ui.skipToContent)}
+      </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-body-base font-medium text-navy-900 hover:text-gold-600 transition-colors relative"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold-600 transition-all duration-300 hover:w-full" />
-              </Link>
-            ))}
-          </div>
+      <div className="shell-pad flex h-16 items-center justify-between gap-6 sm:h-20">
+        <Link href="/" className="group flex items-baseline gap-2.5">
+          <span className="text-[1.05rem] font-extrabold tracking-tight text-shell-bright">
+            {brand.name}
+          </span>
+          <span className="hidden text-micro text-shell-dim sm:inline">
+            {t(brand.tagline)}
+          </span>
+        </Link>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
+        <nav aria-label={t(ui.menu)} className="hidden items-center gap-7 lg:flex">
+          {nav.slice(1).map((item) => (
             <Link
-              href="/contact"
-              className="button button-gold text-sm md:text-body-base"
+              key={item.href}
+              href={item.href}
+              data-current={isCurrent(item.href)}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              className={`link-underline text-small transition-colors duration-200 ${
+                isCurrent(item.href)
+                  ? 'text-shell-bright'
+                  : 'text-shell hover:text-shell-bright'
+              }`}
             >
-              Let's Talk
+              {t(item.label)}
             </Link>
-          </div>
+          ))}
+        </nav>
 
-          {/* Mobile Menu Button */}
+        <div className="flex items-center gap-3">
           <button
-            onClick={toggleMenu}
-            className="md:hidden flex flex-col gap-1.5 w-8 h-8 justify-center items-center hover:text-gold-600 transition-colors"
-            aria-label="Toggle menu"
+            type="button"
+            onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')}
+            title={t(ui.langSwitchTitle)}
+            className="rounded-sm border border-indigo-line px-2.5 py-1.5 text-micro font-semibold tracking-wide text-shell transition-colors duration-200 hover:border-celadon hover:text-celadon"
           >
-            <span
-              className={cn(
-                'w-6 h-0.5 bg-navy-900 transition-all duration-300',
-                isOpen && 'rotate-45 translate-y-2'
+            {t(ui.langLabel)}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            className="flex h-9 w-9 items-center justify-center rounded-sm border border-indigo-line text-shell transition-colors duration-200 hover:border-celadon hover:text-celadon lg:hidden"
+          >
+            <span className="sr-only">{open ? t(ui.close) : t(ui.menu)}</span>
+            <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true">
+              {open ? (
+                <g stroke="currentColor" strokeWidth="1.5">
+                  <line x1="2" y1="2" x2="14" y2="10" />
+                  <line x1="14" y1="2" x2="2" y2="10" />
+                </g>
+              ) : (
+                <g stroke="currentColor" strokeWidth="1.5">
+                  <line x1="0" y1="1.5" x2="16" y2="1.5" />
+                  <line x1="0" y1="6" x2="16" y2="6" />
+                  <line x1="0" y1="10.5" x2="10" y2="10.5" />
+                </g>
               )}
-            />
-            <span
-              className={cn(
-                'w-6 h-0.5 bg-navy-900 transition-all duration-300',
-                isOpen && 'opacity-0'
-              )}
-            />
-            <span
-              className={cn(
-                'w-6 h-0.5 bg-navy-900 transition-all duration-300',
-                isOpen && '-rotate-45 -translate-y-2'
-              )}
-            />
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-white border-t border-navy-100"
+      {open && (
+        <nav
+          id="mobile-nav"
+          aria-label={t(ui.menu)}
+          className="border-t border-indigo-line bg-indigo-deep lg:hidden"
         >
-          <div className="container-custom py-6 flex flex-col gap-4">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="text-body-base font-medium text-navy-900 hover:text-gold-600 transition-colors py-2"
-              >
-                {item.label}
-              </Link>
+          <ul className="shell-pad flex flex-col py-2">
+            {nav.map((item) => (
+              <li key={item.href} className="border-b border-indigo-line/50 last:border-0">
+                <Link
+                  href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  className={`block py-3.5 text-subtitle ${
+                    isCurrent(item.href) ? 'text-celadon' : 'text-shell'
+                  }`}
+                >
+                  {t(item.label)}
+                </Link>
+              </li>
             ))}
-            <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
-              className="button button-gold w-full text-center mt-4"
-            >
-              Let's Talk
-            </Link>
-          </div>
-        </motion.div>
+          </ul>
+        </nav>
       )}
-    </nav>
+    </header>
   )
 }

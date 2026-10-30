@@ -1,48 +1,56 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
+import { Be_Vietnam_Pro, Lora } from 'next/font/google'
+import './globals.css'
+import { LangProvider } from '@/lib/i18n'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { SITE_CONFIG, DEFAULT_SEO } from '@/lib/seo'
-import './globals.css'
+
+const sans = Be_Vietnam_Pro({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const quote = Lora({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-quote',
+  display: 'swap',
+})
+
+const siteUrl = 'https://brandtalk.asia'
 
 export const metadata: Metadata = {
-  title: DEFAULT_SEO.title,
-  description: DEFAULT_SEO.description,
-  keywords: DEFAULT_SEO.keywords,
-  authors: [{ name: SITE_CONFIG.author }],
-  creator: SITE_CONFIG.author,
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'BrandTalk — Cố vấn thương hiệu và thương mại xã hội',
+    template: '%s — BrandTalk',
+  },
+  description:
+    'Phan Như Quỳnh đồng hành cùng người sáng lập và ban điều hành doanh nghiệp Việt về chiến lược thương hiệu, video ngắn và livestream trên thương mại xã hội. TikTok Shop Partner, Shopee Enabler.',
+  keywords: [
+    'BrandTalk',
+    'Phan Như Quỳnh',
+    'thương mại xã hội',
+    'TikTok Shop Partner',
+    'Shopee Enabler',
+    'livestream',
+    'video ngắn',
+    'OCOP',
+    'thương hiệu Việt',
+  ],
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: SITE_CONFIG.url,
-    siteName: SITE_CONFIG.name,
-    title: DEFAULT_SEO.title,
-    description: DEFAULT_SEO.description,
-    images: [
-      {
-        url: SITE_CONFIG.image,
-        width: 1200,
-        height: 630,
-        alt: SITE_CONFIG.name,
-      },
-    ],
+    siteName: 'BrandTalk',
+    title: 'BrandTalk — Hiểu từ gốc để tăng trưởng bền vững',
+    description:
+      'Đồng hành cùng người sáng lập và ban điều hành doanh nghiệp Việt trên thương mại xã hội.',
+    locale: 'vi_VN',
+    alternateLocale: ['en_US'],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: DEFAULT_SEO.title,
-    description: DEFAULT_SEO.description,
-    images: [SITE_CONFIG.image],
-    creator: SITE_CONFIG.twitter,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({
@@ -51,20 +59,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <link rel="canonical" href={SITE_CONFIG.url} />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#1a1a1a" />
-      </head>
-      <body className="bg-cream">
-        <Navigation />
-        <main className="min-h-screen">
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        </main>
-        <Footer />
+    <html lang="vi" className={`${sans.variable} ${quote.variable}`}>
+      <body className="min-h-screen bg-indigo-deep antialiased">
+        <LangProvider>
+          <Navigation />
+          <main id="main">{children}</main>
+          <Footer />
+        </LangProvider>
       </body>
     </html>
   )

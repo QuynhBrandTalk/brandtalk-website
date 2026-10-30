@@ -10,25 +10,29 @@ export default function Footer() {
   const d = contact.details
 
   return (
-    <footer className="mt-24 border-t border-indigo-line bg-indigo-base">
-      <div className="shell-pad grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1.2fr]">
+    <footer className="mt-8 border-t border-hair bg-bone">
+      <div className="shell-pad grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
-          <p className="text-subtitle font-extrabold tracking-tight text-shell-bright">
-            {brand.name}
-          </p>
-          <p className="mt-1 text-small text-celadon">{t(brand.tagline)}</p>
-          <p className="mt-4 max-w-[34ch] text-small text-shell-dim">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo.png"
+            alt={brand.name}
+            width={232}
+            height={124}
+            className="h-20 w-auto"
+          />
+          <p className="mt-5 max-w-[34ch] text-small text-graphite-soft">
             {t(footer.blurb)}
           </p>
         </div>
 
-        <nav aria-label={t(contact.title)}>
-          <ul className="space-y-2.5">
+        <nav aria-label={t(brand.role)}>
+          <ul className="space-y-3">
             {nav.slice(1).map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="link-underline text-small text-shell transition-colors duration-200 hover:text-shell-bright"
+                  className="link-underline text-small text-graphite transition-colors duration-500 ease-apple hover:text-ink"
                 >
                   {t(item.label)}
                 </Link>
@@ -37,11 +41,11 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <div className="space-y-2.5 text-small">
+        <div className="space-y-3 text-small">
           <p>
             <a
               href={`mailto:${d.email}`}
-              className="link-underline text-shell transition-colors duration-200 hover:text-shell-bright"
+              className="link-underline text-graphite hover:text-ink"
             >
               {d.email}
             </a>
@@ -49,7 +53,7 @@ export default function Footer() {
           <p>
             <a
               href={`tel:${d.phone.replace(/\s/g, '')}`}
-              className="link-underline text-shell transition-colors duration-200 hover:text-shell-bright"
+              className="link-underline text-graphite hover:text-ink"
             >
               {d.phone}
             </a>
@@ -59,17 +63,17 @@ export default function Footer() {
               href={d.facebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline text-shell transition-colors duration-200 hover:text-shell-bright"
+              className="link-underline text-graphite hover:text-ink"
             >
               {d.facebook}
             </a>
           </p>
-          <p className="max-w-[30ch] text-shell-dim">{t(d.address)}</p>
+          <p className="max-w-[30ch] text-graphite-mute">{t(d.address)}</p>
         </div>
       </div>
 
       <div className="shell-pad rule py-6">
-        <p className="text-micro text-shell-dim">
+        <p className="text-micro text-graphite-mute">
           {year} {brand.name}. {t(footer.rights)}
         </p>
       </div>

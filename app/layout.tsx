@@ -1,22 +1,17 @@
 import type { Metadata } from 'next'
-import { Be_Vietnam_Pro, Lora } from 'next/font/google'
+import { Be_Vietnam_Pro } from 'next/font/google'
 import './globals.css'
 import { LangProvider } from '@/lib/i18n'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import ScrollMotion from '@/components/ScrollMotion'
 
+// Be Vietnam Pro sets stacked tone marks and circumflexes cleanly, and its
+// geometric cut sits close to the BrandTalk wordmark.
 const sans = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-sans',
-  display: 'swap',
-})
-
-const quote = Lora({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500'],
-  style: ['normal', 'italic'],
-  variable: '--font-quote',
   display: 'swap',
 })
 
@@ -41,6 +36,10 @@ export const metadata: Metadata = {
     'OCOP',
     'thương hiệu Việt',
   ],
+  icons: {
+    icon: '/brand/icon.png',
+    apple: '/brand/icon.png',
+  },
   openGraph: {
     type: 'website',
     siteName: 'BrandTalk',
@@ -49,6 +48,7 @@ export const metadata: Metadata = {
       'Đồng hành cùng người sáng lập và ban điều hành doanh nghiệp Việt trên thương mại xã hội.',
     locale: 'vi_VN',
     alternateLocale: ['en_US'],
+    images: ['/brand/logo.png'],
   },
   robots: { index: true, follow: true },
 }
@@ -59,12 +59,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="vi" className={`${sans.variable} ${quote.variable}`}>
-      <body className="min-h-screen bg-indigo-deep antialiased">
+    <html lang="vi" className={sans.variable}>
+      <body className="min-h-screen bg-white antialiased">
         <LangProvider>
           <Navigation />
           <main id="main">{children}</main>
           <Footer />
+          <ScrollMotion />
         </LangProvider>
       </body>
     </html>

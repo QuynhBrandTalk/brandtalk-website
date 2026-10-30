@@ -3,70 +3,49 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
   }
 
   body {
-    background-color: #0e1b2e;
-    color: #e4dfd2;
+    background-color: #ffffff;
+    color: #1e2c2f;
     font-family: var(--font-sans), system-ui, sans-serif;
     font-size: 1.0625rem;
-    line-height: 1.72;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  /* Vietnamese sets two marks over one vowel, so headings need room. */
+  /* Vietnamese stacks a tone mark over a circumflex, so headings need headroom. */
   h1,
   h2,
   h3,
   h4 {
-    color: theme('colors.shell.bright');
+    color: #000000;
     text-wrap: balance;
     padding-top: 0.06em;
   }
 
   ::selection {
-    background-color: theme('colors.celadon.DEFAULT');
-    color: theme('colors.indigo.deep');
+    background-color: #ef5948;
+    color: #ffffff;
   }
 
   :focus-visible {
-    outline: 2px solid theme('colors.celadon.DEFAULT');
+    outline: 2px solid #ef5948;
     outline-offset: 3px;
     border-radius: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
   }
 }
 
 @layer components {
   .shell-pad {
-    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-14;
   }
 
-  /* A hairline that reads as structure, not decoration: it marks where one
-     part of the argument ends and the next begins. */
   .rule {
-    @apply border-t border-indigo-line;
+    @apply border-t border-hair;
   }
 
   .link-underline {
@@ -78,12 +57,12 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.2em;
-    height: 1px;
-    background-color: theme('colors.celadon.DEFAULT');
+    bottom: -0.22em;
+    height: 1.5px;
+    background-color: #ef5948;
     transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform-origin: left center;
+    transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .link-underline:hover::after,
@@ -92,16 +71,28 @@
     transform: scaleX(1);
   }
 
-  /* The 9:16 frame is the shape BrandTalk's clients actually work in. */
-  .frame-vertical {
-    aspect-ratio: 9 / 16;
-    background: linear-gradient(
-      168deg,
-      theme('colors.indigo.soft') 0%,
-      theme('colors.indigo.base') 58%,
-      theme('colors.indigo.deep') 100%
-    );
-    border: 1px solid theme('colors.indigo.line');
+  /* Stands in for a photograph until the real one is dropped in, using the
+     logo's own gradient rather than a grey box. */
+  .coral-field {
+    background:
+      radial-gradient(
+        120% 90% at 22% 8%,
+        #f8dfdb 0%,
+        rgba(248, 223, 219, 0) 58%
+      ),
+      linear-gradient(152deg, #f57656 0%, #ef5948 46%, #e03f2b 100%);
+  }
+
+  .btn-coral {
+    @apply inline-block bg-coral px-7 py-4 text-small font-semibold text-white;
+    transition:
+      background-color 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-coral:hover {
+    background-color: #e03f2b;
+    transform: translateY(-2px);
   }
 }
 
@@ -110,47 +101,72 @@
     max-width: 62ch;
   }
 
-  /* One orchestrated entrance on first paint, nothing after. */
-  .enter {
-    animation: enter 760ms cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+  /* ---- Scroll-driven motion ------------------------------------------
+     Elements start displaced and settle when they enter the viewport.
+     A small script adds .is-in; everything else is CSS, so there is no
+     animation library to break the build. */
+
+  .rise {
+    opacity: 0;
+    transform: translateY(38px);
+    transition:
+      opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .enter-1 {
-    animation-delay: 60ms;
-  }
-  .enter-2 {
-    animation-delay: 180ms;
-  }
-  .enter-3 {
-    animation-delay: 300ms;
-  }
-  .enter-4 {
-    animation-delay: 420ms;
+  .rise.is-in {
+    opacity: 1;
+    transform: none;
   }
 
-  @keyframes enter {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+  /* Headline lines wipe upward from behind a mask. */
+  .wipe {
+    clip-path: inset(0 0 102% 0);
+    transform: translateY(0.28em);
+    transition:
+      clip-path 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* The live indicator: the one moving thing on the page. */
-  .pulse-live {
-    animation: pulseLive 2.4s ease-in-out infinite;
+  .wipe.is-in {
+    clip-path: inset(0 0 -12% 0);
+    transform: none;
   }
 
-  @keyframes pulseLive {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.35;
+  /* The image sits larger than its frame and eases back to true size. */
+  .zoom-settle img,
+  .zoom-settle .coral-field {
+    transform: scale(1.12);
+    transition: transform 1600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .zoom-settle.is-in img,
+  .zoom-settle.is-in .coral-field {
+    transform: scale(1);
+  }
+
+  .delay-1 {
+    transition-delay: 90ms;
+  }
+  .delay-2 {
+    transition-delay: 180ms;
+  }
+  .delay-3 {
+    transition-delay: 270ms;
+  }
+  .delay-4 {
+    transition-delay: 360ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise,
+    .wipe,
+    .zoom-settle img,
+    .zoom-settle .coral-field {
+      opacity: 1 !important;
+      transform: none !important;
+      clip-path: none !important;
+      transition: none !important;
     }
   }
 }

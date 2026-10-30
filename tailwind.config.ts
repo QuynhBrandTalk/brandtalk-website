@@ -1,9 +1,9 @@
 import type { Config } from 'tailwindcss'
 
 /**
- * Palette drawn from the materials in BrandTalk's own client work:
- * indigo from dyed cloth and Hoa Tiên brocade, celadon from Gốm Sen pottery,
- * eggshell for text, areca gold from Mega Eco's betel-sheath tableware.
+ * Palette sampled directly from the BrandTalk logo:
+ * graphite from the bird, coral gradient from the circle, peach from its top
+ * edge, black from the wordmark, on white as the logo is set.
  */
 const config: Config = {
   content: [
@@ -13,57 +13,58 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        indigo: {
-          deep: '#0E1B2E', // page ground
-          base: '#152741', // raised surface
-          soft: '#1E3454', // second surface
-          line: '#2A4165', // hairlines and borders
+        ink: '#000000', // wordmark black, display type
+        graphite: {
+          DEFAULT: '#1E2C2F', // the bird
+          soft: '#4A565A',
+          mute: '#7D878B',
         },
-        celadon: {
-          DEFAULT: '#8FBFA8', // primary accent
-          bright: '#A9D4BF',
-          dim: '#5C8A76',
+        coral: {
+          DEFAULT: '#EF5948', // circle mid
+          deep: '#E03F2B',
+          light: '#F57656', // circle lower
+          peach: '#F8DFDB', // circle top
         },
-        areca: '#D6A552', // secondary accent, used sparingly
-        shell: {
-          DEFAULT: '#E4DFD2', // body text
-          bright: '#F2EEE4', // headings
-          dim: '#A8A698', // muted text
-        },
+        hair: '#E6E3E0', // rules and borders
+        paper: '#FFFFFF',
+        bone: '#F7F6F4', // the one off-white, for alternating bands
       },
       fontFamily: {
-        // Be Vietnam Pro handles stacked tone marks and circumflexes cleanly,
-        // which most Latin-first faces do not.
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        quote: ['var(--font-quote)', 'Georgia', 'serif'],
       },
       fontSize: {
+        mega: [
+          'clamp(3rem, 9vw, 8rem)',
+          { lineHeight: '0.92', letterSpacing: '-0.04em', fontWeight: '800' },
+        ],
         display: [
-          'clamp(2.6rem, 7vw, 5.25rem)',
-          { lineHeight: '0.98', letterSpacing: '-0.03em', fontWeight: '800' },
+          'clamp(2.4rem, 5.5vw, 4.5rem)',
+          { lineHeight: '1.0', letterSpacing: '-0.035em', fontWeight: '800' },
         ],
         title: [
-          'clamp(1.7rem, 3.6vw, 2.6rem)',
+          'clamp(1.6rem, 3.2vw, 2.4rem)',
           { lineHeight: '1.12', letterSpacing: '-0.02em', fontWeight: '700' },
         ],
         subtitle: [
-          'clamp(1.15rem, 1.8vw, 1.4rem)',
+          'clamp(1.1rem, 1.7vw, 1.35rem)',
           { lineHeight: '1.35', letterSpacing: '-0.01em', fontWeight: '600' },
         ],
-        lede: ['clamp(1.1rem, 1.7vw, 1.3rem)', { lineHeight: '1.62' }],
-        body: ['1.0625rem', { lineHeight: '1.72' }],
+        lede: ['clamp(1.1rem, 1.6vw, 1.3rem)', { lineHeight: '1.6' }],
+        body: ['1.0625rem', { lineHeight: '1.7' }],
         small: ['0.875rem', { lineHeight: '1.55' }],
-        micro: ['0.78rem', { lineHeight: '1.4' }],
+        micro: ['0.76rem', { lineHeight: '1.4', letterSpacing: '0.02em' }],
       },
       maxWidth: {
         reading: '62ch',
-        shell: '78rem',
-      },
-      aspectRatio: {
-        vertical: '9 / 16',
+        shell: '90rem',
       },
       transitionTimingFunction: {
-        ease: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+        // Apple's long decelerating curve
+        apple: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      transitionDuration: {
+        900: '900ms',
+        1200: '1200ms',
       },
     },
   },

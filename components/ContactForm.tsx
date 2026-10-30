@@ -7,7 +7,7 @@ import { useLang } from '@/lib/i18n'
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 const fieldClass =
-  'w-full border-0 border-b border-indigo-line bg-transparent px-0 py-2.5 text-body text-shell-bright transition-colors duration-200 placeholder:text-shell-dim/70 focus:border-celadon focus:outline-none focus:ring-0'
+  'w-full border-0 border-b border-hair bg-transparent px-0 py-2.5 text-body text-ink transition-colors duration-200 placeholder:text-graphite-mute focus:border-coral focus:outline-none focus:ring-0'
 
 export default function ContactForm() {
   const { t, lang } = useLang()
@@ -63,7 +63,7 @@ export default function ContactForm() {
     return (
       <p
         role="status"
-        className="border-l-2 border-celadon py-2 pl-5 text-lede text-shell-bright"
+        className="border-l-2 border-coral py-2 pl-5 text-lede text-ink"
       >
         {t(f.success)}
       </p>
@@ -89,7 +89,7 @@ export default function ContactForm() {
           id="serviceInterest"
           name="serviceInterest"
           defaultValue="board"
-          className={`${fieldClass} [&>option]:bg-indigo-base [&>option]:text-shell`}
+          className={`${fieldClass} [&>option]:bg-bone [&>option]:text-graphite`}
         >
           {f.interestOptions.map((o) => (
             <option key={o.value} value={o.value}>
@@ -109,17 +109,17 @@ export default function ContactForm() {
         />
       </Field>
 
-      <label className="flex items-start gap-3 text-small text-shell">
+      <label className="flex items-start gap-3 text-small text-graphite">
         <input
           type="checkbox"
           name="scheduleCall"
-          className="mt-1 h-4 w-4 shrink-0 accent-celadon"
+          className="mt-1 h-4 w-4 shrink-0 accent-coral"
         />
         <span>{t(f.call)}</span>
       </label>
 
       {status === 'error' && (
-        <p role="alert" className="text-small text-areca">
+        <p role="alert" className="text-small text-coral-deep">
           {t(f.error)}
         </p>
       )}
@@ -127,7 +127,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="bg-celadon px-7 py-3.5 text-small font-semibold text-indigo-deep transition-colors duration-200 hover:bg-celadon-bright disabled:opacity-60"
+        className="bg-coral px-7 py-3.5 text-small font-semibold text-white transition-colors duration-200 hover:bg-coral-deep disabled:opacity-60"
       >
         {status === 'sending' ? t(f.sending) : t(f.submit)}
       </button>
@@ -148,12 +148,12 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-small text-shell-dim">
+      <label htmlFor={id} className="block text-small text-graphite-mute">
         {label}
       </label>
       <div className="mt-1">{children}</div>
       {error && (
-        <p className="mt-2 text-micro text-areca" role="alert">
+        <p className="mt-2 text-micro text-coral-deep" role="alert">
           {error}
         </p>
       )}

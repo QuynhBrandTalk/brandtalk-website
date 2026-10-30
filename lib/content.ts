@@ -315,6 +315,11 @@ export const clients = {
   cases: [
     {
       name: 'Mega Eco',
+      headline: {
+        vi: 'Hộp cơm mo cau đầu tiên trên thế giới',
+        en: 'The first areca sheath lunch box in the world',
+      },
+      image: '/work/mega-eco.jpg',
       sector: { vi: 'Sản phẩm từ mo cau, Quảng Ngãi', en: 'Areca sheath tableware, Quảng Ngãi' },
       body: {
         vi: 'Ra mắt hộp cơm bằng mo cau đầu tiên trên thế giới. Mentor chiến lược doanh nghiệp và định hướng kênh: mở rộng hệ thống cộng tác viên, phát triển kênh xuất khẩu sang Đài Loan và Pháp, chuyển giao công nghệ cho doanh nghiệp địa phương, và tạo đầu ra cho bà con Quảng Ngãi.',
@@ -327,6 +332,11 @@ export const clients = {
     },
     {
       name: 'Freshity',
+      headline: {
+        vi: 'Thoát khỏi thế lệ thuộc vào KOC',
+        en: 'Out from under the influencers',
+      },
+      image: '/work/freshity.jpg',
       sector: { vi: 'Thực phẩm', en: 'Food' },
       body: {
         vi: 'Chuyển từ trạng thái phụ thuộc hoàn toàn vào KOC sang tự chủ kênh quảng bá, xây dựng nhận diện thương hiệu qua hệ thống review và nâng tỷ trọng doanh thu tự vận hành.',
@@ -339,6 +349,11 @@ export const clients = {
     },
     {
       name: 'Chosim247',
+      headline: {
+        vi: 'Phiên live do chính đội ngũ nội bộ cầm',
+        en: 'Livestreams the in-house team runs itself',
+      },
+      image: '/work/chosim247.jpg',
       sector: { vi: 'Sim và data viễn thông', en: 'Telco sim and data' },
       body: {
         vi: 'Tối ưu phiên livestream do đội ngũ nội bộ vận hành, qua hai chiến dịch lớn trong năm, đưa thương hiệu vào nhóm dẫn đầu mảng sim data.',
@@ -351,6 +366,11 @@ export const clients = {
     },
     {
       name: 'Hòa Tuộc Seafood',
+      headline: {
+        vi: 'Người bán cá trở thành thương hiệu',
+        en: 'The fishmonger becomes the brand',
+      },
+      image: '/work/hoa-tuoc.jpg',
       sector: { vi: 'Hải sản', en: 'Seafood' },
       body: {
         vi: 'Đào tạo và mentor nội dung, hỗ trợ vận hành và livestream. Xây thương hiệu cá nhân cho chủ kênh, phát triển bán hàng đa nền tảng với khâu vận chuyển tự chủ, và mở rộng hệ thống đại lý toàn quốc.',
@@ -363,6 +383,11 @@ export const clients = {
     },
     {
       name: 'Việt Tín 5s',
+      headline: {
+        vi: 'Dựng kênh từ con số không',
+        en: 'A channel built from nothing',
+      },
+      image: '/work/viet-tin-5s.jpg',
       sector: { vi: 'Dịch vụ', en: 'Services' },
       body: {
         vi: 'Coaching doanh nghiệp, xây dựng quy trình và dựng kênh TikTok để quảng bá thương hiệu.',
@@ -375,6 +400,11 @@ export const clients = {
     },
     {
       name: 'Call me Duy & Aom',
+      headline: {
+        vi: 'Nhà bán hàng trong mạng lưới đối tác',
+        en: 'Sellers inside the partner network',
+      },
+      image: '/work/duy-aom.jpg',
       sector: { vi: 'Nhà sáng tạo nội dung', en: 'Content creators' },
       body: {
         vi: 'Hỗ trợ nhà bán thuộc mạng lưới TikTok Shop Partner: tối ưu hỗ trợ nền tảng, key livestream và voucher thưởng.',

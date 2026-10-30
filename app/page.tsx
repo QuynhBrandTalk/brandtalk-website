@@ -1,198 +1,146 @@
 'use client'
 
 import Link from 'next/link'
-import { about, approach, brand, clients, home } from '@/lib/content'
+import { about, approach, clients, contact, home } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
+import WorkTile from '@/components/WorkTile'
+import { slugFor } from '@/lib/slug'
 
 export default function HomePage() {
-  const { t, lang } = useLang()
+  const { t } = useLang()
+
+  const [feature, ...rest] = clients.cases
 
   return (
     <>
-      {/* Hero: the vertical frame is the shape this work happens in. */}
-      <section className="shell-pad pb-20 pt-14 sm:pt-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
-          <div>
-            <p className="enter enter-1 text-micro font-semibold tracking-wide text-celadon">
-              {t(home.hero.kicker)}
-            </p>
+      {/* The work opens the site, the way it does at an agency that wants to
+          be judged on what it made. */}
+      <section className="shell-pad pt-10 sm:pt-14">
+        <p className="rise text-micro font-semibold text-coral">
+          {t(home.hero.kicker)}
+        </p>
+        <h1 className="wipe delay-1 mt-5 max-w-[18ch] text-mega">
+          {t(home.hero.headline)}
+        </h1>
+        <p className="rise delay-2 mt-7 max-w-[52ch] text-lede text-graphite-soft">
+          {t(home.hero.sub)}
+        </p>
+      </section>
 
-            <h1 className="enter enter-2 mt-5 text-display">
-              {t(home.hero.headline)}
-            </h1>
+      <section className="shell-pad mt-16">
+        <div className="rise">
+          <WorkTile
+            name={feature.name}
+            headline={feature.headline}
+            sector={feature.sector}
+            image={feature.image}
+            href={`/work/${slugFor(feature)}`}
+            variant="feature"
+            priority
+          />
+        </div>
+      </section>
 
-            <p className="enter enter-3 mt-7 max-w-[46ch] text-lede text-shell">
-              {t(home.hero.sub)}
-            </p>
-
-            <div className="enter enter-4 mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Link
-                href="/contact"
-                className="bg-celadon px-6 py-3.5 text-small font-semibold text-indigo-deep transition-colors duration-200 hover:bg-celadon-bright"
-              >
-                {t(home.hero.cta)}
-              </Link>
-              <Link
-                href="/approach"
-                className="link-underline text-small font-medium text-shell transition-colors duration-200 hover:text-shell-bright"
-              >
-                {t(home.hero.ctaSecondary)}
-              </Link>
+      <section className="shell-pad mt-24">
+        <div className="grid gap-x-10 gap-y-20 md:grid-cols-2">
+          {rest.map((c) => (
+            <div key={c.name} className="rise">
+              <WorkTile
+                name={c.name}
+                headline={c.headline}
+                sector={c.sector}
+                image={c.image}
+                href={`/work/${slugFor(c)}`}
+              />
             </div>
-          </div>
-
-          <div className="enter enter-3 mx-auto w-full max-w-[17rem] lg:max-w-none">
-            <div className="frame-vertical flex flex-col justify-between p-5">
-              <div className="flex items-center gap-2">
-                <span className="pulse-live h-1.5 w-1.5 rounded-full bg-areca" />
-                <span className="text-micro font-semibold tracking-wide text-areca">
-                  LIVE
-                </span>
-              </div>
-
-              <ul className="space-y-3">
-                {clients.cases.map((c) => (
-                  <li
-                    key={c.name}
-                    className="border-l border-celadon-dim pl-3 text-small text-shell"
-                  >
-                    <span className="block font-semibold text-shell-bright">
-                      {c.name}
-                    </span>
-                    <span className="block text-micro text-shell-dim">
-                      {t(c.sector)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <p className="text-micro text-shell-dim">
-                {t(clients.caseLabel)}
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
 
-      {/* The founder letter, in her own words. */}
-      <section className="shell-pad rule py-20">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.9fr] lg:gap-16">
-          <div>
-            <h2 className="text-title">{t(home.letter.label)}</h2>
-            <p className="mt-4 text-small text-shell-dim">
-              {brand.founder}
-              <span className="block">{t(brand.founderRole)}</span>
-            </p>
-          </div>
-
-          <div className="space-y-6 text-reading">
-            {home.letter.body[lang].map((para, i) => (
-              <p
-                key={i}
-                className={
-                  i === 0
-                    ? 'font-quote text-lede italic text-shell-bright'
-                    : 'text-body text-shell'
-                }
-              >
-                {para}
-              </p>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Market context. The percentages are TikTok's published research, not
-          client results. */}
-      <section className="shell-pad rule py-20">
-        <h2 className="max-w-[20ch] text-title">{t(home.marketTitle)}</h2>
-
-        <div className="mt-8 grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
-          <div>
-            <p className="text-reading text-body text-shell">
-              {t(home.marketBody)}
-            </p>
-            <p className="mt-5 text-micro text-shell-dim">
-              {t(home.marketSource)}
-            </p>
-          </div>
-
-          <dl className="space-y-6">
-            {home.stats.map((s) => (
-              <div key={s.value} className="flex gap-5">
-                <dt className="w-[3.6rem] shrink-0 font-quote text-[1.9rem] leading-none text-celadon">
-                  {s.value}
-                </dt>
-                <dd className="text-small text-shell">{t(s.label)}</dd>
-              </div>
-            ))}
-            <p className="text-micro text-shell-dim">{t(home.statsSource)}</p>
-          </dl>
-        </div>
-      </section>
-
-      {/* How the work happens. */}
-      <section className="shell-pad rule py-20">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <h2 className="text-title">{t(approach.title)}</h2>
+        <div className="rise mt-16">
           <Link
-            href="/approach"
-            className="link-underline text-small text-shell transition-colors duration-200 hover:text-shell-bright"
+            href="/clients"
+            className="link-underline text-subtitle text-ink"
           >
-            {t(approach.title)}
+            {t(clients.title)}
           </Link>
         </div>
+      </section>
 
-        <p className="mt-5 text-reading text-lede text-shell">
-          {t(approach.lede)}
-        </p>
+      {/* A short statement of who is behind the work, then out to About. */}
+      <section className="mt-32 bg-bone py-24">
+        <div className="shell-pad grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+          <h2 className="wipe text-title">{t(home.letter.label)}</h2>
 
-        <ul className="mt-12 grid gap-x-12 gap-y-10 sm:grid-cols-2">
-          {approach.modes.map((m) => (
-            <li key={m.name.en} className="border-t border-indigo-line pt-5">
+          <div>
+            <p className="rise text-reading text-lede text-graphite">
+              {t(about.lede)}
+            </p>
+            <p className="rise delay-1 mt-6 text-reading text-body text-graphite-soft">
+              {t(home.closing.body)}
+            </p>
+            <Link
+              href="/about"
+              className="rise delay-2 link-underline mt-9 inline-block text-subtitle text-ink"
+            >
+              {t(about.title)}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How the work happens, kept to four lines with the detail a click away. */}
+      <section className="shell-pad py-24">
+        <h2 className="wipe text-title">{t(approach.title)}</h2>
+
+        <ul className="mt-12 grid gap-x-12 gap-y-12 sm:grid-cols-2">
+          {approach.modes.map((m, i) => (
+            <li
+              key={m.name.en}
+              className="rise rule pt-6"
+              style={{ transitionDelay: `${i * 90}ms` }}
+            >
               <h3 className="text-subtitle">{t(m.name)}</h3>
-              <p className="mt-3 max-w-[42ch] text-small text-shell">
+              <p className="mt-3 max-w-[42ch] text-small text-graphite-soft">
                 {t(m.body)}
               </p>
             </li>
           ))}
         </ul>
+
+        <Link
+          href="/approach"
+          className="rise link-underline mt-12 inline-block text-subtitle text-ink"
+        >
+          {t(approach.title)}
+        </Link>
       </section>
 
-      {/* Values. */}
-      <section className="shell-pad rule py-20">
-        <h2 className="text-title">{t(about.valuesTitle)}</h2>
-
-        <ul className="mt-10 grid gap-x-12 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
-          {about.values.map((v) => (
-            <li key={v.name.en}>
-              <h3 className="text-subtitle text-celadon">{t(v.name)}</h3>
-              <p className="mt-2.5 text-small text-shell">{t(v.body)}</p>
+      {/* Training clients carry weight here: they are the names people know. */}
+      <section className="shell-pad rule py-24">
+        <h2 className="wipe text-title">{t(clients.trainingLabel)}</h2>
+        <ul className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          {clients.training.map((item, i) => (
+            <li
+              key={item.name}
+              className="rise"
+              style={{ transitionDelay: `${i * 90}ms` }}
+            >
+              <p className="text-subtitle">{item.name}</p>
+              <p className="mt-1.5 text-small text-graphite-mute">
+                {t(item.note)}
+              </p>
             </li>
           ))}
         </ul>
       </section>
 
-      {/* Closing. */}
-      <section className="shell-pad rule py-20">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-          <figure>
-            <blockquote className="font-quote text-[clamp(1.5rem,3vw,2.2rem)] italic leading-[1.3] text-shell-bright">
-              {t(home.closing.quote)}
-            </blockquote>
-            <figcaption className="mt-4 text-small text-shell-dim">
-              {home.closing.attribution}
-            </figcaption>
-          </figure>
-
-          <div>
-            <p className="text-reading text-body text-shell">
-              {t(home.closing.body)}
-            </p>
-            <Link
-              href="/contact"
-              className="mt-8 inline-block bg-celadon px-6 py-3.5 text-small font-semibold text-indigo-deep transition-colors duration-200 hover:bg-celadon-bright"
-            >
+      <section className="shell-pad rule py-24">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+          <h2 className="wipe max-w-[16ch] text-display">
+            {t(contact.lede)}
+          </h2>
+          <div className="rise delay-1 self-end">
+            <Link href="/contact" className="btn-coral">
               {t(home.hero.cta)}
             </Link>
           </div>

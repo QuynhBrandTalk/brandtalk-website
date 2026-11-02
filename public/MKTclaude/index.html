@@ -251,6 +251,14 @@
   .done h3 { font-size: 26px; }
   .done p { margin-top: 12px; color: var(--ink-2); }
   .done .pay { margin-top: 18px; padding: 16px 18px; background: var(--cream); border-radius: 12px; font-size: 16px; }
+  .policy { margin-top: 28px; max-width: 680px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 0 14px 14px 0; padding: 22px 26px; }
+  .policy h3 { font-size: 20px; }
+  .policy ul { margin: 12px 0 0 18px; font-size: 16px; color: var(--ink-2); }
+  .policy li { margin-top: 4px; }
+  .policy p { margin-top: 12px; font-size: 15px; color: var(--ink-2); }
+  .policy a { text-decoration: underline; }
+  .agree { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; font-weight: 500; cursor: pointer; }
+  .agree input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--red); flex: none; }
   .pay-grid { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; margin-top: 18px; }
   .pay-grid .pay { margin-top: 0; flex: 1 1 260px; }
   .qr { margin: 0; width: 220px; }
@@ -495,6 +503,7 @@
       <li>Tối đa 30 học viên, có hỗ trợ tại lớp và trong 30 ngày sau buổi học</li>
     </ul>
     <p class="compare-line">Chi phí một nhân sự CSKH trung bình 5–6 triệu đồng mỗi tháng, chưa gồm chạy quảng cáo tìm lead, team content và thiết kế.</p>
+    <p class="compare-line">Học phí là cam kết của bạn: sắp xếp thời gian đúng với điều đã hứa, và tôn trọng công sức chất xám của người hướng dẫn, để cả lớp cùng đạt kết quả sau khóa học.</p>
     <!-- CTA 3 -->
     <div class="cta-row">
       <a class="btn btn-primary" href="#dang-ky">Giữ chỗ với 399.000đ</a>
@@ -510,7 +519,7 @@
     <div class="faq-list">
       <details open><summary>Chưa biết dùng Claude thì có học được không?</summary><p>Có. Lớp bắt đầu từ thao tác cơ bản, mỗi phần đều có thực hành ngay tại lớp.</p></details>
       <details><summary>Cần chuẩn bị gì trước buổi học?</summary><p>Chuẩn bị tài liệu brand và sản phẩm theo danh sách trong group Zalo, và tạo tài khoản AI247 trước buổi học.</p></details>
-      <details><summary>Vắng buổi học thì sao?</summary><p>Muốn bảo lưu, vui lòng báo trước ít nhất 24 giờ.</p></details>
+      <details><summary>Vắng buổi học thì sao?</summary><p>Báo trước ít nhất 24 giờ: hoàn tiền. Báo sau mốc này hoặc vắng mặt không báo: không hoàn tiền. Muốn bảo lưu cũng cần báo trước ít nhất 24 giờ. Báo qua 0936 752 494 hoặc quynhphan.mar@gmail.com.</p></details>
     </div>
   </div>
 </section>
@@ -527,6 +536,16 @@
     </div>
     <p class="conditions">Điều kiện: chuyển khoản để giữ chỗ và tạo tài khoản AI247 trước buổi học. Chúng tôi kiểm tra tài khoản trước khi duyệt vào group.</p>
     <p class="conditions"><b>Chuẩn bị trước buổi học:</b> tài liệu giới thiệu thương hiệu, danh sách sản phẩm hoặc dịch vụ, câu hỏi thường gặp của khách, bảng giá nếu có. Chuẩn bị đủ thì dựng bộ não nhanh hơn trong lớp.</p>
+
+    <div class="policy">
+      <h3>Chính sách hoàn hủy (bắt buộc)</h3>
+      <ul>
+        <li>Báo trước ít nhất <b>24 giờ</b> trước giờ học: <b>hoàn tiền</b>.</li>
+        <li>Báo sau mốc này, hoặc vắng mặt không báo: <b>không hoàn tiền</b>.</li>
+        <li>Báo hủy hoặc bảo lưu qua <a href="tel:0936752494">0936 752 494</a> hoặc <a href="mailto:quynhphan.mar@gmail.com">quynhphan.mar@gmail.com</a>.</li>
+      </ul>
+      <p>Học phí là cam kết của bạn với chính kết quả sau khóa học và là cách tôn trọng công sức của người hướng dẫn. Vì vậy hãy sắp xếp thời gian đúng với điều bạn đã hứa.</p>
+    </div>
 
     <form class="reg" id="reg-form" novalidate>
       <div class="field" data-field="name">
@@ -556,6 +575,10 @@
       <div class="field full">
         <label for="f-goal">Bạn muốn đạt được gì sau khóa học? <span style="font-weight:400;color:var(--ink-2)">(không bắt buộc)</span></label>
         <textarea id="f-goal" name="goal"></textarea>
+      </div>
+      <div class="field full" data-field="agree">
+        <label class="agree"><input id="f-agree" name="agree" type="checkbox"><span>Tôi đã đọc và đồng ý chính sách hoàn hủy ở trên.</span></label>
+        <span class="err">Vui lòng đồng ý chính sách hoàn hủy để giữ chỗ.</span>
       </div>
       <div class="submit">
         <button class="btn btn-primary" type="submit">Giữ chỗ · 399.000đ</button>
@@ -729,6 +752,11 @@
       if (!valid && ok) { input.focus(); }
       ok = ok && valid;
     });
+    var agreeField = form.querySelector('[data-field="agree"]');
+    var agreed = agreeField.querySelector('input').checked;
+    agreeField.classList.toggle('invalid', !agreed);
+    if (!agreed && ok) { agreeField.querySelector('input').focus(); }
+    ok = ok && agreed;
     if (!ok) return;
     var ref = makeRef();
     var payload = {

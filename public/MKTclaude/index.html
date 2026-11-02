@@ -703,7 +703,8 @@
     clearInterval(pollTimer);
     done.classList.remove('show', 'confirmed');
     form.hidden = false;
-    form.querySelector('button[type="submit"]').disabled = false;
+    var sb = form.querySelector('button[type="submit"]');
+    sb.disabled = false; sb.textContent = 'Giữ chỗ · 399.000đ';
   });
   /* returning visitor: restore the transfer step, and forward to Zalo if already confirmed */
   (function () {
@@ -740,6 +741,7 @@
     };
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
+    btn.textContent = 'Đang gửi...';
     var send = FORM_ENDPOINT.indexOf('http') === 0
       ? fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
       : Promise.resolve();
@@ -751,6 +753,7 @@
       startPolling(ref);
     }).catch(function () {
       btn.disabled = false;
+      btn.textContent = 'Giữ chỗ · 399.000đ';
       alert('Chưa gửi được thông tin. Vui lòng thử lại hoặc liên hệ trực tiếp.');
     });
   });

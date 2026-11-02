@@ -456,7 +456,7 @@
 </header>
 
 <!-- CTA 1: hero -->
-<section class="hero">
+<section class="hero" data-sec="hero">
   <div class="wrap">
     <div>
       <div class="kicker">Khóa học thực chiến</div>
@@ -502,7 +502,7 @@
 </div>
 
 <!-- Pain -->
-<section class="pain">
+<section class="pain" data-sec="pain">
   <div class="wrap">
     <div class="kicker">Bạn đang gặp gì?</div>
     <h2>Marketing tốn tiền, tốn người mà chưa ra kết quả</h2>
@@ -516,7 +516,7 @@
 </section>
 
 <!-- Time saved -->
-<section style="padding-top: 0;">
+<section style="padding-top: 0;" data-sec="saving">
   <div class="wrap">
     <div class="stat-band">
       <div class="stat-big">Khoảng 30 phút <span class="stat-arrow">→</span> 5–10 phút</div>
@@ -527,7 +527,7 @@
 </section>
 
 <!-- Solution + second brain -->
-<section id="noi-dung" style="padding-top: 0;">
+<section id="noi-dung" style="padding-top: 0;" data-sec="skills">
   <div class="wrap">
     <div class="kicker">Bạn sẽ nhận được</div>
     <h2>Một bộ não thứ hai cho team marketing</h2>
@@ -555,7 +555,7 @@
 </section>
 
 <!-- AI247: optional add-on, paid separately, built on the course skills -->
-<section class="addon" id="ai247">
+<section class="addon" id="ai247" data-sec="ai247">
   <div class="wrap">
     <div class="kicker">Phần mở rộng · tính phí riêng</div>
     <h2>Skill xây bộ não. AI247 đưa bộ não đó ra chạy thật.</h2>
@@ -588,7 +588,7 @@
 </section>
 
 <!-- Schedule -->
-<section style="padding-top: 0;">
+<section style="padding-top: 0;" data-sec="schedule">
   <div class="wrap">
     <div class="kicker">Lịch học</div>
     <h2>Sáng Thứ Năm, rời lớp là chạy được</h2>
@@ -609,7 +609,7 @@
 </section>
 
 <!-- Value -->
-<section class="value">
+<section class="value" data-sec="price">
   <div class="wrap">
     <div class="kicker">Học phí so với giá trị</div>
     <h2>499.000đ cho cả một bộ công cụ chạy marketing</h2>
@@ -631,7 +631,7 @@
 </section>
 
 <!-- FAQ -->
-<section style="padding-bottom: 72px;">
+<section style="padding-bottom: 72px;" data-sec="faq">
   <div class="wrap">
     <div class="kicker">Hỏi đáp</div>
     <h2>Câu hỏi thường gặp</h2>
@@ -644,7 +644,7 @@
 </section>
 
 <!-- Registration: the form is the last block on the page -->
-<section class="register" id="dang-ky">
+<section class="register" id="dang-ky" data-sec="register">
   <div class="wrap">
     <div class="kicker">Đăng ký</div>
     <h2>Giữ chỗ trong ba bước</h2>
@@ -736,7 +736,7 @@
 
 <footer>
   <div class="wrap">
-    <div>BrandTalk · brandtalk.asia</div>
+    <div>BrandTalk · brandtalk.asia · Trang dùng thống kê ẩn danh để cải thiện nội dung</div>
     <div>Liên hệ: <a href="tel:0936752494" style="text-decoration:underline">0936 752 494</a> · <a href="mailto:quynhphan.mar@gmail.com" style="text-decoration:underline">quynhphan.mar@gmail.com</a></div>
   </div>
 </footer>
@@ -813,6 +813,7 @@
   function showConfirmed(link) {
     if (confirmedShown) return;
     confirmedShown = true;
+    if (window.mktTrack) { window.mktTrack('zalo_redirect'); if (window.mktFlush) window.mktFlush(false); }
     clearInterval(pollTimer);
     done.classList.add('show', 'confirmed');
     form.hidden = true;
@@ -885,7 +886,9 @@
       email: form.email.value.trim(),
       role: form.role.value,
       goal: form.goal.value.trim(),
-      ref: ref
+      ref: ref,
+      source: (window.mktAttr || {}).src || '',
+      campaign: (window.mktAttr || {}).cmp || ''
     };
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
@@ -895,6 +898,7 @@
       : Promise.resolve();
     send.then(function () {
       try { localStorage.setItem('mkt_ref', ref); } catch (err) {}
+      if (window.mktTrack) window.mktTrack('form_submit', form.role.value);
       form.hidden = true;
       done.classList.add('show');
       done.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -942,6 +946,132 @@
 })();
 </script>
 
+
+<script>
+/* Anonymous measurement: page views, source, section attention, clicks and form funnel.
+   No personal data is collected here. Visits from the owner (editor or dashboard login) and preview sites are skipped. */
+(function () {
+  var EP = window.MKT_ENDPOINT || '';
+  var qs = new URLSearchParams(location.search);
+  var noop = function () {};
+  window.mktTrack = noop; window.mktFlush = noop; window.mktAttr = { src: '', med: '', cmp: '', cnt: '' };
+  if (EP.indexOf('http') !== 0) return;
+
+  if (qs.get('notrack') === '1') { try { localStorage.setItem('mkt_owner', '1'); } catch (e) {} }
+  var owner = false; try { owner = localStorage.getItem('mkt_owner') === '1'; } catch (e) {}
+
+  /* attribution: explicit utm first, then referrer, then in-app browser, kept for 7 days */
+  var A = {}; try { A = JSON.parse(localStorage.getItem('mkt_attr') || '{}'); } catch (e) {}
+  var ua = navigator.userAgent, now = Date.now();
+  function refSource() {
+    var r = document.referrer; if (!r) return ''; var h = '';
+    try { h = new URL(r).hostname; } catch (e) { return ''; }
+    if (h === location.hostname) return '';
+    if (/(^|\.)(facebook\.com|fb\.com|fb\.me)$/.test(h)) return 'facebook';
+    if (/(^|\.)(zalo\.me|zaloapp\.com|zalo\.vn)$/.test(h)) return 'zalo';
+    if (/(^|\.)google\./.test(h)) return 'google';
+    if (/(^|\.)(tiktok\.com)$/.test(h)) return 'tiktok';
+    if (/(^|\.)(youtube\.com|youtu\.be)$/.test(h)) return 'youtube';
+    return h.replace(/^www\./, '');
+  }
+  var fresh = null, us = qs.get('utm_source');
+  if (us) fresh = { src: us.toLowerCase(), med: (qs.get('utm_medium') || '').toLowerCase(), cmp: (qs.get('utm_campaign') || '').toLowerCase(), cnt: (qs.get('utm_content') || '').toLowerCase() };
+  else if (qs.get('fbclid')) fresh = { src: 'facebook', med: '', cmp: '', cnt: '' };
+  else {
+    var rs = refSource() || (/FBAN|FBAV|FB_IAB/i.test(ua) ? 'facebook' : (/Zalo/i.test(ua) ? 'zalo' : ''));
+    if (rs) fresh = { src: rs, med: '', cmp: '', cnt: '' };
+  }
+  if (fresh) { A = fresh; A.ts = now; try { localStorage.setItem('mkt_attr', JSON.stringify(A)); } catch (e) {} }
+  else if (!A.src || now - (A.ts || 0) > 7 * 864e5) { A = { src: 'direct', med: '', cmp: '', cnt: '', ts: now }; }
+  window.mktAttr = A;
+
+  if (owner || navigator.webdriver || location.hash === '#chinh-sua' || /(^localhost$|^127\.|vercel\.app$)/.test(location.hostname)) return;
+
+  function rid() { var c = 'abcdefghjkmnpqrstuvwxyz23456789', o = ''; for (var i = 0; i < 12; i++) o += c.charAt(Math.floor(Math.random() * c.length)); return o; }
+  var VID, SID, returning = true;
+  try { VID = localStorage.getItem('mkt_vid'); if (!VID) { VID = rid(); returning = false; localStorage.setItem('mkt_vid', VID); } } catch (e) { VID = rid(); }
+  try { SID = sessionStorage.getItem('mkt_sid'); if (!SID) { SID = rid(); sessionStorage.setItem('mkt_sid', SID); } } catch (e) { SID = rid(); }
+  var DEV = (/Mobi|Android|iPhone|iPad/i.test(ua) || window.innerWidth < 768) ? 'mobile' : 'desktop';
+
+  var queue = [], sentCount = 0, MAX = 250, dwell = {}, inBand = {}, active = 0, flushed = false;
+  function track(e, d, v) {
+    if (sentCount + queue.length >= MAX) return;
+    queue.push({ e: e, d: d == null ? '' : String(d).slice(0, 60), v: v == null ? '' : v });
+  }
+  function flush(final) {
+    Object.keys(dwell).forEach(function (k) { if (dwell[k] > 0) { queue.push({ e: 'dwell', d: k, v: Math.round(dwell[k]) }); dwell[k] = 0; } });
+    if (final && active > 0) queue.push({ e: 'top', d: '', v: Math.round(active) });
+    if (!queue.length) return;
+    var batch = queue.splice(0, 60); sentCount += batch.length;
+    var body = JSON.stringify({ action: 'events', vid: VID, sid: SID, src: A.src, med: A.med, cmp: A.cmp, cnt: A.cnt, dev: DEV, events: batch });
+    try { if (navigator.sendBeacon && navigator.sendBeacon(EP, new Blob([body], { type: 'text/plain;charset=UTF-8' }))) return; } catch (e) {}
+    try { fetch(EP, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body }); } catch (e) {}
+  }
+  window.mktTrack = track; window.mktFlush = flush;
+
+  track('pv', returning ? 'return' : 'new');
+
+  /* section attention: a section counts while it crosses the middle band of the screen */
+  if ('IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var id = en.target.getAttribute('data-sec');
+        inBand[id] = en.isIntersecting;
+        if (en.isIntersecting && !seen[id]) { seen[id] = true; track('sec', id); }
+      });
+    }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+    document.querySelectorAll('[data-sec]').forEach(function (el) { io.observe(el); });
+  }
+  setInterval(function () {
+    if (document.visibilityState !== 'visible' || active > 1800) return;
+    active++;
+    Object.keys(inBand).forEach(function (k) { if (inBand[k]) dwell[k] = (dwell[k] || 0) + 1; });
+  }, 1000);
+
+  /* scroll depth */
+  var marks = { 25: false, 50: false, 75: false, 100: false }, tick = null;
+  window.addEventListener('scroll', function () {
+    if (tick) return;
+    tick = setTimeout(function () {
+      tick = null;
+      var h = document.documentElement.scrollHeight - window.innerHeight; if (h <= 0) return;
+      var p = Math.round((window.scrollY / h) * 100);
+      [25, 50, 75, 100].forEach(function (m) { if (!marks[m] && p >= m - (m === 100 ? 3 : 0)) { marks[m] = true; track('scroll', m); } });
+    }, 250);
+  }, { passive: true });
+
+  /* clicks */
+  function place(a) {
+    if (a.closest('header')) return 'header';
+    if (a.closest('.sticky-cta')) return 'nut-co-dinh-mobile';
+    if (a.closest('.hero')) return 'hero';
+    if (a.closest('.value')) return 'hoc-phi';
+    if (a.closest('#ai247')) return 'ai247';
+    if (a.closest('#noi-dung')) return 'bo-nao';
+    return 'khac';
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a, button'); if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href === '#dang-ky') track('cta', place(a));
+    else if (/ai247s\.com/.test(href)) track('ai247_link');
+    else if (/^tel:/.test(href)) track('contact', 'tel');
+    else if (/^mailto:/.test(href)) track('contact', 'mail');
+    else if (a.id === 'check-pay') track('pay_check');
+    else if (a.classList && a.classList.contains('node')) track('brain_node', a.textContent.trim());
+  }, true);
+  document.querySelectorAll('details').forEach(function (d) {
+    d.addEventListener('toggle', function () { if (d.open) track('faq', (d.querySelector('summary') || {}).textContent || ''); });
+  });
+  var f = document.getElementById('reg-form'), started = false;
+  if (f) f.addEventListener('focusin', function () { if (!started) { started = true; track('form_start'); } });
+
+  setInterval(function () { flush(false); }, 15000);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flush(true); });
+  window.addEventListener('pagehide', function () { flush(true); });
+})();
+</script>
 <script>
 /* Text editor: published text overrides are read from the Google Sheet tab "NoiDung".
    Only the owner (password) can open the editor, with #chinh-sua at the end of the page address. */
@@ -1017,7 +1147,7 @@
       var k = input.value.trim(); if (!k) return;
       m.querySelector('#ed-err').textContent = 'Đang kiểm tra...';
       jsonp('action=check&key=' + encodeURIComponent(k), function (d) {
-        if (d && d.ok) { setKey(k); close(); onOk(); }
+        if (d && d.ok) { setKey(k); try { localStorage.setItem('mkt_owner', '1'); } catch (e) {} close(); onOk(); }
         else m.querySelector('#ed-err').textContent = 'Mật khẩu chưa đúng.';
       });
     }

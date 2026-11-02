@@ -18,10 +18,19 @@ const nextConfig = {
     return [
       { source: '/MKTclaude', destination: '/MKTclaude/index.html' },
       { source: '/mktclaude', destination: '/MKTclaude/index.html' },
+      { source: '/MKTclaude/dashboard', destination: '/MKTclaude/dashboard/index.html' },
     ]
   },
   async headers() {
     return [
+      {
+        source: '/MKTclaude/dashboard/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/MKTclaude/dashboard',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
       {
         source: '/MKTclaude/fonts/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],

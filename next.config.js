@@ -20,6 +20,18 @@ const nextConfig = {
       { source: '/mktclaude', destination: '/MKTclaude/index.html' },
     ]
   },
+  async headers() {
+    return [
+      {
+        source: '/MKTclaude/fonts/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        source: '/MKTclaude/assets/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400' }],
+      },
+    ]
+  },
   // Tạm thời: các trang còn lại của website chưa hoàn thiện, nên đưa mọi đường dẫn khác về landing.
   // Muốn mở lại website: xóa khối redirects này.
   async redirects() {

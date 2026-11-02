@@ -20,6 +20,17 @@ const nextConfig = {
       { source: '/mktclaude', destination: '/MKTclaude/index.html' },
     ]
   },
+  // Tạm thời: các trang còn lại của website chưa hoàn thiện, nên đưa mọi đường dẫn khác về landing.
+  // Muốn mở lại website: xóa khối redirects này.
+  async redirects() {
+    return [
+      {
+        source: '/((?!MKTclaude|mktclaude|_next|api|favicon.ico).*)',
+        destination: '/MKTclaude',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

@@ -233,6 +233,22 @@
   .cta-row { display: flex; justify-content: center; margin-top: 40px; }
 
   /* schedule */
+  .road { margin-top: 36px; }
+  .road-sum { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+  .road-sum span { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 15px; }
+  .road-sum b { color: var(--red); font-weight: 600; }
+  .road-item { display: grid; grid-template-columns: 44px 1fr; gap: 16px; position: relative; padding-bottom: 22px; }
+  .road-item::before { content: ""; position: absolute; left: 21px; top: 44px; bottom: 0; width: 2px; background: var(--line); }
+  .road-item:last-of-type::before { display: none; }
+  .road-n { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-family: var(--display); font-weight: 600; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+  .road-sum + .road-item .road-n { background: var(--line); }
+  .road-b { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; }
+  .road-t { font-size: 14px; font-weight: 600; color: var(--red); }
+  .road-b h3 { font-size: 21px; margin-top: 4px; }
+  .road-b p { font-size: 15.5px; color: var(--ink-2); margin-top: 8px; line-height: 1.5; }
+  .road-out { margin-top: 12px; background: var(--paper); border-left: 3px solid var(--coral); border-radius: 0 10px 10px 0; padding: 9px 12px; font-size: 14.5px; }
+  .road-note { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+  @media (max-width: 700px) { .road-item { grid-template-columns: 34px 1fr; gap: 12px; } .road-n { width: 34px; height: 34px; font-size: 15px; } .road-item::before { left: 16px; top: 34px; } .road-b { padding: 16px; } }
   .timeline { margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr); position: relative; }
   .timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 13px; height: 2px; background: var(--line); }
   .tl-item { position: relative; padding-right: 24px; }
@@ -593,21 +609,21 @@
 <section style="padding-top: 0;" data-sec="schedule">
   <div class="wrap">
     <div class="kicker">Lịch học</div>
-    <h2>9h–12h sáng Thứ Năm, rời lớp là chạy được</h2>
+    <h2>Buổi học 9h–12h Thứ Năm: học gì, theo thứ tự nào</h2>
     <p class="lead">Buổi học 3 giờ, từ 9h đến 12h sáng Thứ Năm 05/11/2026. Tối đa 30 học viên, đồng hành hỗ trợ trong vòng 30 ngày sau buổi học. Sau đó bạn có thể vào group để nhận thêm thông tin chia sẻ và hỏi đáp.</p>
-    <div class="session-bar" aria-label="Tỷ lệ thời gian trong buổi học">
-      <div class="s1"><span>Mở đầu</span>15'</div>
-      <div class="s2"><span>Tạo bộ não</span>60'</div>
-      <div class="s3"><span>Thực hành và kèm từng người</span>90'</div>
-      <div class="s4"><span>Chốt</span>15'</div>
+    <div class="road" id="road">
+      <div class="road-sum"><span><b>7</b> phần học</span><span><b>3 giờ</b> · 9h–12h</span><span>Làm ngay trên máy của bạn</span></div>
+      <div class="road-item"><div class="road-n"></div><div class="road-b"><div class="road-t">9:00–9:15</div><h3>Mở đầu</h3><p>Rà tài liệu bạn đã chuẩn bị, chốt mục tiêu của từng người.</p><div class="road-out"><b>Bạn mang về:</b> Biết rõ mình sẽ làm gì trong buổi học.</div></div></div>
+      <div class="road-item"><div class="road-n">1</div><div class="road-b"><div class="road-t">9:15–10:05</div><h3>Xây bộ não thông tin</h3><p>Gom thông tin sản phẩm, giọng thương hiệu, câu hỏi thường gặp và từ khóa khách hàng dùng. Đưa vào Claude thành bộ não để AI hiểu việc kinh doanh của bạn.</p><div class="road-out"><b>Bạn mang về:</b> Bộ não thương hiệu đầu tiên, tạo ngay trong lớp.</div></div></div>
+      <div class="road-item"><div class="road-n">2</div><div class="road-b"><div class="road-t">10:05–10:30</div><h3>Dùng skill content và thiết kế hiệu quả</h3><p>3 bộ skill content và 2 bộ skill thiết kế: khi nào dùng bộ nào, cách ra lệnh để có kết quả đúng ý, cách duyệt và sửa nhanh.</p><div class="road-out"><b>Bạn mang về:</b> Quy trình làm một bài content và một thiết kế với skill.</div></div></div>
+      <div class="road-item"><div class="road-n">3</div><div class="road-b"><div class="road-t">10:30–10:50</div><h3>Tùy chỉnh cho riêng bạn</h3><p>Điều chỉnh bộ não và skill theo sản phẩm và giọng thương hiệu của bạn, rồi chốt bản quy hoạch lại brand và sản phẩm.</p><div class="road-out"><b>Bạn mang về:</b> Bản quy hoạch lại brand và sản phẩm.</div></div></div>
+      <div class="road-item"><div class="road-n">4</div><div class="road-b"><div class="road-t">10:50–11:10</div><h3>Nguyên tắc chăm sóc khách hàng</h3><p>Cách trả lời khách đúng giọng thương hiệu, tình huống nào để AI trả lời, tình huống nào chuyển cho người, giờ trả lời và ngưỡng chống spam.</p><div class="road-out"><b>Bạn mang về:</b> Bộ nguyên tắc chăm sóc khách của riêng bạn.</div></div></div>
+      <div class="road-item"><div class="road-n">5</div><div class="road-b"><div class="road-t">11:10–11:35</div><h3>Cài bộ não vào AI247 trên Zalo cá nhân</h3><p>Hướng dẫn từng bước kết nối AI247 với Zalo cá nhân và gắn bộ não, nguyên tắc chăm khách vừa làm vào để chạy thử.</p><div class="road-out"><b>Bạn mang về:</b> Zalo cá nhân đã cài bộ não và chạy thử.</div></div></div>
+      <div class="road-item"><div class="road-n">6</div><div class="road-b"><div class="road-t">11:35–11:50</div><h3>Tìm lead trong group Facebook</h3><p>Đặt từ khóa tìm người đang cần sản phẩm trong group Facebook công khai, đưa người quan tâm vào danh sách cho đội sale.</p><div class="road-out"><b>Bạn mang về:</b> Bộ từ khóa tìm lead theo ngành của bạn.</div></div></div>
+      <div class="road-item"><div class="road-n">7</div><div class="road-b"><div class="road-t">11:50–12:00</div><h3>Hỏi đáp</h3><p>Giải đáp thắc mắc của từng người, chốt các việc cần làm trong 30 ngày hỗ trợ sau buổi học.</p><div class="road-out"><b>Bạn mang về:</b> Biết bước tiếp theo sau buổi học.</div></div></div>
+      <p class="road-note">Giờ từng phần là dự kiến, có thể điều chỉnh theo tốc độ của lớp. Phần AI247 là phần mở rộng, tính phí riêng ngoài học phí khóa học.</p>
     </div>
-    <div class="timeline">
-      <div class="tl-item"><div class="tl-dot"></div><div class="time">9:00–9:15</div><h3>Mở đầu và rà tài liệu</h3><p>Kiểm tra tài liệu đã chuẩn bị, chốt mục tiêu của từng người.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><div class="time">9:15–10:15</div><h3>Tạo bộ não</h3><p>Hướng dẫn cài bộ não nhanh, dùng prompt trong nhóm Zalo chính.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><div class="time">10:15–11:45</div><h3>Thực hành và kèm từng người</h3><p>Mỗi người thử chat, chỉnh bộ não theo sản phẩm và giọng thương hiệu của mình.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><div class="time">11:45–12:00</div><h3>Chốt bản quy hoạch</h3><p>Nhận bản quy hoạch lại brand và sản phẩm, hỏi đáp cuối buổi.</p></div>
-    </div>
-  </div>
+</div>
 </section>
 
 <!-- Value -->

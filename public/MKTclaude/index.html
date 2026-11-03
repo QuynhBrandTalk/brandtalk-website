@@ -284,6 +284,16 @@
   .addon-price .amount { font-family: var(--serif); font-size: 46px; color: var(--red); line-height: 1; }
   .addon-price .per { font-size: 15px; color: var(--ink-2); margin-top: 8px; }
   .addon-price .sep { font-size: 15px; margin-top: 0; padding: 12px 14px; background: var(--ph-bg); border-radius: 10px; }
+  .gift { margin-top: 28px; color: var(--ink); background: #fff; border: 2px solid var(--coral); border-radius: 22px; padding: 26px 26px 22px; position: relative; box-shadow: 0 24px 50px -30px rgba(158,42,34,.45); }
+  .gift .tag { position: absolute; top: -14px; left: 22px; background: var(--red); color: #fff; font-size: 13px; font-weight: 600; letter-spacing: .02em; padding: 5px 14px; border-radius: 999px; }
+  .gift h3 { font-family: var(--display); font-size: 26px; line-height: 1.2; letter-spacing: -0.02em; margin-top: 4px; }
+  .gift h3 em { font-style: normal; color: var(--red); }
+  .gift-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--line); font-size: 16px; }
+  .gift-row b { font-weight: 600; }
+  .gift-row span { color: var(--red); font-weight: 600; white-space: nowrap; }
+  .gift-free { margin-top: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--paper); border-radius: 14px; padding: 12px 16px; font-size: 16px; }
+  .gift-free b { color: #2F7D5B; font-weight: 700; white-space: nowrap; }
+  .gift-note { font-size: 13px; color: var(--ink-2); margin-top: 10px; }
   .addon-price .bonus { margin-top: 18px; padding: 14px 16px; border-left: 3px solid var(--coral); background: var(--paper); border-radius: 0 10px 10px 0; font-size: 15px; }
   .addon-price .btn { width: 100%; margin-top: 20px; }
   .addon-price .small { font-size: 13px; color: var(--ink-2); margin-top: 12px; }
@@ -605,8 +615,15 @@
   <div class="wrap">
     <div class="kicker">Học phí so với giá trị</div>
     <h2>499.000đ cho cả một bộ công cụ chạy marketing</h2>
+    <div class="gift" data-sec-gift>
+      <div class="tag">Quà tặng trong khóa</div>
+      <h3>Trọn bộ 5 skill, trị giá <em>hơn 2 triệu đồng</em></h3>
+      <div class="gift-row"><b>3 bộ skill content</b><span>500K/skill</span></div>
+      <div class="gift-row"><b>2 bộ skill thiết kế</b><span>500K/skill</span></div>
+      <div class="gift-free"><span>Học viên khóa này nhận</span><b>Tặng kèm, 0đ</b></div>
+      <p class="gift-note">500K/skill là giá khi BrandTalk bán riêng từng skill sau khóa học.</p>
+    </div>
     <ul>
-      <li>3 bộ skill content và 2 bộ skill thiết kế</li>
       <li>Bộ não thương hiệu được tạo ngay trong lớp</li>
       <li>Bản quy hoạch lại brand và sản phẩm</li>
       <li>Tài khoản AI247 đã triển khai ngay trong lớp</li>

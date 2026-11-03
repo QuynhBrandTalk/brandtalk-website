@@ -283,7 +283,7 @@
   .addon-price { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
   .addon-price .amount { font-family: var(--serif); font-size: 46px; color: var(--red); line-height: 1; }
   .addon-price .per { font-size: 15px; color: var(--ink-2); margin-top: 8px; }
-  .addon-price .sep { font-size: 15px; margin-top: 16px; padding: 12px 14px; background: var(--ph-bg); border-radius: 10px; }
+  .addon-price .sep { font-size: 15px; margin-top: 0; padding: 12px 14px; background: var(--ph-bg); border-radius: 10px; }
   .addon-price .bonus { margin-top: 18px; padding: 14px 16px; border-left: 3px solid var(--coral); background: var(--paper); border-radius: 0 10px 10px 0; font-size: 15px; }
   .addon-price .btn { width: 100%; margin-top: 20px; }
   .addon-price .small { font-size: 13px; color: var(--ink-2); margin-top: 12px; }
@@ -569,10 +569,8 @@
         <li>Đặt giờ trả lời và ngưỡng chống spam ngay trên giao diện</li>
       </ul>
       <div class="addon-price">
-        <div class="amount">1.200.000đ</div>
-        <div class="per">mỗi tháng · đăng ký theo tháng</div>
-        <div class="sep">Phí AI247 <b>thanh toán riêng</b>, không nằm trong 499.000đ của khóa học.</div>
-        <div class="bonus"><b>Bonus:</b> group hỗ trợ tối ưu 2 tháng đầu, chỉnh bộ não và cách lọc lead theo ngành của bạn.</div>
+        <div class="sep">Ghi chú: AI247 là phần mềm riêng, thanh toán trực tiếp cho AI247 và <b>không nằm trong 499.000đ</b> của khóa học. Phí hiện tại 1.200.000đ mỗi tháng, đăng ký theo tháng.</div>
+        <div class="bonus"><b>Hỗ trợ trong khóa:</b> mình đồng hành giúp bạn xây bộ não và dùng công cụ trong 30 ngày sau buổi học.</div>
         <a class="btn btn-primary" href="#dang-ky">Đăng ký khóa học</a>
         <div class="small">AI247 đăng ký riêng: <a href="https://app.ai247s.com/dangky?ref=UFUG9KM&amp;k=hk3dxk" target="_blank" rel="noopener" style="text-decoration:underline">Đăng ký AI247</a></div>
       </div>
@@ -1072,7 +1070,7 @@
 (function () {
   var EP = window.MKT_ENDPOINT || '';
   if (EP.indexOf('http') !== 0) return;
-  var SELECTOR = 'h1 .h-line > span, h2, h3, p, li, summary, figcaption, .kicker, .chip, .stat-big, .btn, .time, .step b, .field > label, .agree span, .p-pill, .p-card b, .p-card span, .addon-price .amount, .addon-price .per';
+  var SELECTOR = 'h1 .h-line > span, h2, h3, p, li, summary, figcaption, .kicker, .chip, .stat-big, .btn, .time, .step b, .field > label, .agree span, .p-pill, .p-card b, .p-card span';
   var EXCLUDE = '.done, .brain, .edit-ui, .brain-detail, .pay-msg';
 
   function hash(str) { var h = 5381; for (var i = 0; i < str.length; i++) { h = ((h << 5) + h + str.charCodeAt(i)) | 0; } return (h >>> 0).toString(36); }
